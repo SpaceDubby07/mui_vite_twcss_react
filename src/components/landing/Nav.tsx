@@ -51,6 +51,9 @@ export default function Nav() {
         <MenuItem onClick={handleClose}>
           <Link to="/log-in">Log In</Link>
         </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Link to="/dashboard">Dashboard</Link>
+        </MenuItem>
       </Menu>
     </div>
   );
