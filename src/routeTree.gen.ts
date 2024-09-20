@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as DashboardImport } from './routes/dashboard'
+import { Route as DashboardIndexImport } from './routes/dashboard/index'
 import { Route as DashboardUsersImport } from './routes/dashboard/users'
 import { Route as DashboardUserProfilesImport } from './routes/dashboard/userProfiles'
 import { Route as DashboardPostsImport } from './routes/dashboard/posts'
@@ -52,6 +53,11 @@ const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const DashboardIndexRoute = DashboardIndexImport.update({
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
 
 const DashboardUsersRoute = DashboardUsersImport.update({
   path: '/users',
@@ -140,6 +146,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardUsersImport
       parentRoute: typeof DashboardImport
     }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexImport
+      parentRoute: typeof DashboardImport
+    }
   }
 }
 
@@ -150,6 +163,7 @@ interface DashboardRouteChildren {
   DashboardPostsRoute: typeof DashboardPostsRoute
   DashboardUserProfilesRoute: typeof DashboardUserProfilesRoute
   DashboardUsersRoute: typeof DashboardUsersRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
@@ -157,6 +171,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardPostsRoute: DashboardPostsRoute,
   DashboardUserProfilesRoute: DashboardUserProfilesRoute,
   DashboardUsersRoute: DashboardUsersRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
 }
 
 const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
@@ -173,11 +188,11 @@ export interface FileRoutesByFullPath {
   '/dashboard/posts': typeof DashboardPostsRoute
   '/dashboard/userProfiles': typeof DashboardUserProfilesRoute
   '/dashboard/users': typeof DashboardUsersRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
-  '/dashboard': typeof DashboardRouteWithChildren
   '/about': typeof AboutLazyRoute
   '/log-in': typeof LogInLazyRoute
   '/sign-up': typeof SignUpLazyRoute
@@ -185,6 +200,7 @@ export interface FileRoutesByTo {
   '/dashboard/posts': typeof DashboardPostsRoute
   '/dashboard/userProfiles': typeof DashboardUserProfilesRoute
   '/dashboard/users': typeof DashboardUsersRoute
+  '/dashboard': typeof DashboardIndexRoute
 }
 
 export interface FileRoutesById {
@@ -198,6 +214,7 @@ export interface FileRoutesById {
   '/dashboard/posts': typeof DashboardPostsRoute
   '/dashboard/userProfiles': typeof DashboardUserProfilesRoute
   '/dashboard/users': typeof DashboardUsersRoute
+  '/dashboard/': typeof DashboardIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -212,10 +229,10 @@ export interface FileRouteTypes {
     | '/dashboard/posts'
     | '/dashboard/userProfiles'
     | '/dashboard/users'
+    | '/dashboard/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/dashboard'
     | '/about'
     | '/log-in'
     | '/sign-up'
@@ -223,6 +240,7 @@ export interface FileRouteTypes {
     | '/dashboard/posts'
     | '/dashboard/userProfiles'
     | '/dashboard/users'
+    | '/dashboard'
   id:
     | '__root__'
     | '/'
@@ -234,6 +252,7 @@ export interface FileRouteTypes {
     | '/dashboard/posts'
     | '/dashboard/userProfiles'
     | '/dashboard/users'
+    | '/dashboard/'
   fileRoutesById: FileRoutesById
 }
 
@@ -281,7 +300,8 @@ export const routeTree = rootRoute
         "/dashboard/comments",
         "/dashboard/posts",
         "/dashboard/userProfiles",
-        "/dashboard/users"
+        "/dashboard/users",
+        "/dashboard/"
       ]
     },
     "/about": {
@@ -307,6 +327,10 @@ export const routeTree = rootRoute
     },
     "/dashboard/users": {
       "filePath": "dashboard/users.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/": {
+      "filePath": "dashboard/index.tsx",
       "parent": "/dashboard"
     }
   }

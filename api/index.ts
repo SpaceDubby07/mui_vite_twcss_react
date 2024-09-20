@@ -32,6 +32,7 @@ const db = new sqlite3.Database('./users.db', (err) => {
         bio TEXT,
         date_of_birth DATE,
         location TEXT,
+        image TEXT,
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
       )`,
       `CREATE TABLE IF NOT EXISTS posts (
@@ -109,12 +110,50 @@ app.get('/api/users', (req: Request, res: Response) => {
 // api to delete a user from the database, by id
 app.delete('/api/users/:id', (req: Request, res: Response) => {
   const { id } = req.params;
-  db.run('DELETE FROM users WHERE id = ?', [id], (err) => {
+
+  // Start a transaction to ensure data consistency
+  db.run('BEGIN TRANSACTION', (err) => {
     if (err) {
       res.status(500).json({ error: err.message });
       return;
     }
-    res.json({ message: 'User deleted successfully' });
+
+    // Delete from user_profiles table
+    db.run(
+      'DELETE FROM user_profiles WHERE user_id = ?',
+      [id],
+      (err) => {
+        if (err) {
+          res.status(500).json({ error: err.message });
+          db.run('ROLLBACK');
+          return;
+        }
+
+        // Optionally delete from other tables as needed (e.g., posts, comments)
+        // db.run('DELETE FROM posts WHERE user_id = ?', [id], (err) => { ... });
+
+        // Finally, delete the user from the users table
+        db.run('DELETE FROM users WHERE id = ?', [id], (err) => {
+          if (err) {
+            res.status(500).json({ error: err.message });
+            db.run('ROLLBACK'); // Rollback transaction if there's an error
+            return;
+          }
+
+          // Commit the transaction if all queries succeed
+          db.run('COMMIT', (err) => {
+            if (err) {
+              res.status(500).json({ error: err.message });
+              return;
+            }
+            res.json({
+              message:
+                'User and associated data deleted successfully',
+            });
+          });
+        });
+      }
+    );
   });
 });
 
@@ -136,6 +175,7 @@ app.put('/api/users/:id', (req: Request, res: Response) => {
 
 interface UserProfile {
   user_id: number;
+  image: string;
   bio: string;
   date_of_birth: string;
   location: string;
@@ -143,11 +183,16 @@ interface UserProfile {
 
 // create a users profile
 app.post('/api/user_profiles', (req: Request, res: Response) => {
-  const { user_id, bio, date_of_birth, location }: UserProfile =
-    req.body;
+  const {
+    user_id,
+    bio,
+    date_of_birth,
+    location,
+    image,
+  }: UserProfile = req.body;
   db.run(
-    'INSERT INTO user_profiles (user_id, bio, date_of_birth, location) VALUES (?, ?, ?, ?)',
-    [user_id, bio, date_of_birth, location],
+    'INSERT INTO user_profiles (user_id, bio, date_of_birth, location, image) VALUES (?, ?, ?, ?, ?)',
+    [user_id, bio, date_of_birth, location, image],
     function (err) {
       if (err) {
         res.status(400).json({ error: err.message });
@@ -188,10 +233,10 @@ app.get('/api/user_profiles/:id', (req: Request, res: Response) => {
 // update a user profile
 app.put('/api/user_profiles/:id', (req: Request, res: Response) => {
   const { id } = req.params;
-  const { bio, date_of_birth, location } = req.body;
+  const { bio, date_of_birth, location, image } = req.body;
   db.run(
-    'UPDATE user_profiles SET bio = ?, date_of_birth = ?, location = ? WHERE id = ?',
-    [bio, date_of_birth, location, id],
+    'UPDATE user_profiles SET bio = ?, date_of_birth = ?, location = ?, image = ? WHERE id = ?',
+    [bio, date_of_birth, location, image, id],
     (err) => {
       if (err) {
         res.status(500).json({ error: err.message });

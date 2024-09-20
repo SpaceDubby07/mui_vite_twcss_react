@@ -198,8 +198,7 @@ const UserTable: React.FC<UserTableProps> = ({
             <TableCell>ID</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Email</TableCell>
-            <TableCell>Edit</TableCell>
-            <TableCell>Delete</TableCell>
+            <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

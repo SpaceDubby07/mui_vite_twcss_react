@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Button,
   Table,
@@ -15,12 +16,19 @@ import DeleteIcon from '@mui/icons-material/Delete';
 interface UserProfile {
   id: number;
   user_id: number;
+  image: string;
   bio: string;
   date_of_birth: string;
   location: string;
 }
 
+interface User {
+  id: number;
+  name: string;
+}
+
 interface UserProfileTableProps {
+  users: User[];
   userProfiles: UserProfile[];
   deleteUserProfile: (id: number) => void;
   editUserProfile: (profile: UserProfile) => void;
@@ -28,6 +36,7 @@ interface UserProfileTableProps {
 
 export const UserProfileTable: React.FC<UserProfileTableProps> = ({
   userProfiles,
+  users,
   deleteUserProfile,
   editUserProfile,
 }) => {
@@ -40,7 +49,10 @@ export const UserProfileTable: React.FC<UserProfileTableProps> = ({
         <Table>
           <TableHead>
             <TableRow>
+              <TableCell>Profile ID</TableCell>
               <TableCell>User ID</TableCell>
+              <TableCell>Name</TableCell>
+              <TableCell>Avatar</TableCell>
               <TableCell>Bio</TableCell>
               <TableCell>Date of Birth</TableCell>
               <TableCell>Location</TableCell>
@@ -48,30 +60,46 @@ export const UserProfileTable: React.FC<UserProfileTableProps> = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {userProfiles.map((profile) => (
-              <TableRow key={profile.id}>
-                <TableCell>{profile.user_id}</TableCell>
-                <TableCell>{profile.bio}</TableCell>
-                <TableCell>{profile.date_of_birth}</TableCell>
-                <TableCell>{profile.location}</TableCell>
-                <TableCell>
-                  <Button
-                    startIcon={<EditIcon />}
-                    onClick={() => editUserProfile(profile)}
-                    sx={{ mr: 1 }}
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    startIcon={<DeleteIcon />}
-                    onClick={() => deleteUserProfile(profile.id)}
-                    color="error"
-                  >
-                    Delete
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+            {userProfiles.map((profile) => {
+              // Find matching user by user_id
+              const matchingUser = users.find(
+                (user) => user.id === profile.user_id
+              );
+
+              return (
+                <TableRow key={profile.id}>
+                  <TableCell>{profile.id}</TableCell>
+                  <TableCell>{profile.user_id}</TableCell>
+                  <TableCell>
+                    {matchingUser
+                      ? matchingUser.name
+                      : 'Unknown User'}
+                  </TableCell>
+                  <TableCell>
+                    <Avatar alt={profile.image} src={profile.image} />
+                  </TableCell>
+                  <TableCell>{profile.bio}</TableCell>
+                  <TableCell>{profile.date_of_birth}</TableCell>
+                  <TableCell>{profile.location}</TableCell>
+                  <TableCell>
+                    <Button
+                      startIcon={<EditIcon />}
+                      onClick={() => editUserProfile(profile)}
+                      sx={{ mr: 1 }}
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      startIcon={<DeleteIcon />}
+                      onClick={() => deleteUserProfile(profile.id)}
+                      color="error"
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>

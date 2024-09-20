@@ -6,6 +6,7 @@ import { UserProfileTable } from '../../components/dashboard/UserProfileTable';
 interface UserProfile {
   id: number;
   user_id: number;
+  image: string;
   bio: string;
   date_of_birth: string;
   location: string;
@@ -96,6 +97,7 @@ export const Route = createFileRoute('/dashboard/userProfiles')({
           setSelectedProfile={setSelectedProfile}
         />
         <UserProfileTable
+          users={users}
           userProfiles={userProfiles}
           deleteUserProfile={deleteUserProfile}
           editUserProfile={editUserProfile}

@@ -16,6 +16,7 @@ interface User {
 
 interface UserProfile {
   id: number;
+  image: string;
   user_id: number;
   bio: string;
   date_of_birth: string;
@@ -44,6 +45,7 @@ export const AddUserProfile: React.FC<AddUserProfileProps> = ({
   setSelectedProfile,
 }) => {
   const [userId, setUserId] = useState<number | null>(null);
+  const [image, setImage] = useState<string>('');
   const [bio, setBio] = useState<string>('');
   const [dateOfBirth, setDateOfBirth] = useState<string>('');
   const [location, setLocation] = useState<string>('');
@@ -51,11 +53,13 @@ export const AddUserProfile: React.FC<AddUserProfileProps> = ({
   useEffect(() => {
     if (selectedProfile) {
       setUserId(selectedProfile.user_id);
+      setImage(selectedProfile.image);
       setBio(selectedProfile.bio);
       setDateOfBirth(selectedProfile.date_of_birth);
       setLocation(selectedProfile.location);
     } else {
       setUserId(null);
+      setImage('');
       setBio('');
       setDateOfBirth('');
       setLocation('');
@@ -72,6 +76,7 @@ export const AddUserProfile: React.FC<AddUserProfileProps> = ({
 
     const newProfile = {
       user_id: userId,
+      image,
       bio,
       date_of_birth: dateOfBirth,
       location,
@@ -122,6 +127,7 @@ export const AddUserProfile: React.FC<AddUserProfileProps> = ({
 
         // Reset form
         setUserId(null);
+        setImage('');
         setBio('');
         setDateOfBirth('');
         setLocation('');
@@ -165,6 +171,15 @@ export const AddUserProfile: React.FC<AddUserProfileProps> = ({
         </Select>
       </FormControl>
 
+      <TextField
+        label="Image URL"
+        multiline
+        rows={4}
+        value={image}
+        onChange={(e) => setImage(e.target.value)}
+        required
+        sx={{ m: 1, width: '300px' }}
+      />
       <TextField
         label="Bio"
         multiline
