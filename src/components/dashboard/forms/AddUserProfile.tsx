@@ -168,9 +168,22 @@ export const AddUserProfile: React.FC<AddUserProfileProps> = ({
         type="date"
         value={dateOfBirth}
         onChange={(e) => setDateOfBirth(e.target.value)}
-        InputLabelProps={{ shrink: true }}
+        slotProps={{ inputLabel: { shrink: true } }}
         required
-        sx={{ m: 1, width: '300px' }}
+        sx={{
+          m: 1,
+          width: '300px',
+          // Apply the theme's text and background colors to the input field
+          '& input': {
+            color: 'text.primary', // Use theme's text color
+            backgroundColor: 'background.paper', // Use theme's background color
+          },
+          // Style the calendar icon for webkit browsers
+          '& input[type="date"]::-webkit-calendar-picker-indicator': {
+            filter:
+              'invert(50%) sepia(100%) saturate(500%) hue-rotate(180deg)', // Adjust this filter to change the icon's color
+          },
+        }}
       />
 
       <TextField
