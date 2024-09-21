@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { UserCommentsTableProps } from '../../../types';
+import { UserCommentsTableProps } from '../../../../types';
 
 export const UserCommentTable: React.FC<UserCommentsTableProps> = ({
   UserComments,

@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react';
-import { AddUserProps } from '../../../types';
+import { AddUserProps } from '../../../../types';
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { responsiveDesign } from '../../theme/Theme';
 
@@ -94,7 +94,7 @@ export const AddUser: React.FC<AddUserProps> = ({
         ...responsiveDesign,
       }}
     >
-      <Typography variant="h5">Create Profile</Typography>
+      <Typography variant="h5">Create User</Typography>
 
       <TextField
         label="Name"

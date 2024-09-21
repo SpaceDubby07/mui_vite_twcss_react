@@ -9,7 +9,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-import { UserTableProps } from '../../../types';
+import { UserTableProps } from '../../../../types';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 export const UserTable: React.FC<UserTableProps> = ({

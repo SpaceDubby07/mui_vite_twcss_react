@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useEffect, useState, FormEvent } from 'react';
-import { AddUserProfileProps } from '../../../types';
+import { AddUserProfileProps } from '../../../../types';
 import { responsiveDesign } from '../../theme/Theme';
 
 export const AddUserProfile: React.FC<AddUserProfileProps> = ({

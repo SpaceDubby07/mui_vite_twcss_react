@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { UserPostTableProps } from '../../../types';
+import { UserPostTableProps } from '../../../../types';
 
 export const UserPostTable: React.FC<UserPostTableProps> = ({
   UserPosts,

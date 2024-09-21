@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useEffect, useState, FormEvent } from 'react';
-import { AddUserPostProps } from '../../../types';
+import { AddUserPostProps } from '../../../../types';
 import { responsiveDesign } from '../../theme/Theme';
 
 export const AddUserPost: React.FC<AddUserPostProps> = ({

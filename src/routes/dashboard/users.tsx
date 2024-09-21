@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { User } from '../../types';
+import { User } from '../../../types';
 import { AddUser } from '../../components/dashboard/forms/AddUser';
 import { UserTable } from '../../components/dashboard/tables/UserTable';
 

@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useEffect, useState, FormEvent } from 'react';
-import { AddUserCommentProps } from '../../../types';
+import { AddUserCommentProps } from '../../../../types';
 import { responsiveDesign } from '../../theme/Theme';
 
 // Implement responsive design for the MUI interface
@@ -172,7 +172,7 @@ export const AddUserComment: React.FC<AddUserCommentProps> = ({
         type="submit"
         sx={{ m: 2 }}
       >
-        {isEditing ? 'Update Post' : 'Create Post'}
+        {isEditing ? 'Update Comment' : 'Add Comment'}
       </Button>
 
       {isEditing && (

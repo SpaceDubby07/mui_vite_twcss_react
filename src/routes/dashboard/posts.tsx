@@ -3,7 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 import { AddUserPost } from '../../components/dashboard/forms/AddUserPost';
 import { UserPostTable } from '../../components/dashboard/tables/UserPostTable';
-import { Post, User } from '../../types';
+import { Post, User } from '../../../types';
 
 // create a new post
 

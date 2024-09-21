@@ -3,7 +3,7 @@ import { AddUserComment } from '../../components/dashboard/forms/AddUserComment'
 import { Box } from '@mui/material';
 import { UserCommentTable } from '../../components/dashboard/tables/UserCommentTable';
 import { useEffect, useState } from 'react';
-import { Comments, Post, User } from '../../types';
+import { Comments, Post, User } from '../../../types';
 
 export const Route = createFileRoute('/dashboard/comments')({
   component: function CommentsRoute() {
