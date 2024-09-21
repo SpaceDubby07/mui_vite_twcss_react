@@ -12,27 +12,7 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-
-interface UserProfile {
-  id: number;
-  user_id: number;
-  image: string;
-  bio: string;
-  date_of_birth: string;
-  location: string;
-}
-
-interface User {
-  id: number;
-  name: string;
-}
-
-interface UserProfileTableProps {
-  users: User[];
-  userProfiles: UserProfile[];
-  deleteUserProfile: (id: number) => void;
-  editUserProfile: (profile: UserProfile) => void;
-}
+import { UserProfileTableProps } from '../../../types';
 
 export const UserProfileTable: React.FC<UserProfileTableProps> = ({
   userProfiles,

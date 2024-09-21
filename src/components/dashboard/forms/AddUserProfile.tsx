@@ -6,35 +6,11 @@ import {
   Select,
   InputLabel,
   FormControl,
+  Typography,
 } from '@mui/material';
 import { useEffect, useState, FormEvent } from 'react';
-
-interface User {
-  id: number;
-  name: string;
-}
-
-interface UserProfile {
-  id: number;
-  image: string;
-  user_id: number;
-  bio: string;
-  date_of_birth: string;
-  location: string;
-}
-
-interface AddUserProfileProps {
-  users: User[];
-  setUserProfiles: React.Dispatch<
-    React.SetStateAction<UserProfile[]>
-  >;
-  isEditing: boolean;
-  selectedProfile: UserProfile | null;
-  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
-  setSelectedProfile: React.Dispatch<
-    React.SetStateAction<UserProfile | null>
-  >;
-}
+import { AddUserProfileProps } from '../../../types';
+import { responsiveDesign } from '../../theme/Theme';
 
 export const AddUserProfile: React.FC<AddUserProfileProps> = ({
   users,
@@ -146,12 +122,9 @@ export const AddUserProfile: React.FC<AddUserProfileProps> = ({
     <Box
       component="form"
       onSubmit={handleSubmit}
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
+      sx={{ ...responsiveDesign }}
     >
+      <Typography variant="h5">Create Profile</Typography>
       <FormControl sx={{ m: 1, width: '300px' }}>
         <InputLabel id="user-select-label">Select User</InputLabel>
         <Select

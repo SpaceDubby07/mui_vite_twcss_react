@@ -1,22 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { AddUserProfile } from '../../components/dashboard/AddUserProfile';
-import { UserProfileTable } from '../../components/dashboard/UserProfileTable';
-
-interface UserProfile {
-  id: number;
-  user_id: number;
-  image: string;
-  bio: string;
-  date_of_birth: string;
-  location: string;
-}
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
+import { AddUserProfile } from '../../components/dashboard/forms/AddUserProfile';
+import { UserProfileTable } from '../../components/dashboard/tables/UserProfileTable';
+import { User, UserProfile } from '../../types';
 
 export const Route = createFileRoute('/dashboard/userProfiles')({
   component: function UserProfileRoute() {
