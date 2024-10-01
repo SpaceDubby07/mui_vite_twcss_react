@@ -27,6 +27,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import RateReviewIcon from '@mui/icons-material/RateReview';
+import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useState } from 'react';
 
 interface SidebarProps {
@@ -54,6 +56,16 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose }) => {
       text: 'Comments',
       icon: <RateReviewIcon />,
       path: '/dashboard/comments',
+    },
+    {
+      text: 'Follows',
+      icon: <ThumbsUpDownIcon />,
+      path: '/dashboard/follows',
+    },
+    {
+      text: 'Matches',
+      icon: <FavoriteIcon />,
+      path: '/dashboard/matches',
     },
   ];
 

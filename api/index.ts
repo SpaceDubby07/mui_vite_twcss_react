@@ -6,6 +6,8 @@ import usersRouter from './routes/users';
 import userProfilesRouter from './routes/userProfiles';
 import postsRouter from './routes/posts';
 import commentsRouter from './routes/comments';
+import followsRouter from './routes/follows';
+import matchesRouter from './routes/matches';
 
 const app = express();
 const port = 3001;
@@ -19,6 +21,8 @@ app.use('/api/users', usersRouter);
 app.use('/api/user_profiles', userProfilesRouter);
 app.use('/api/posts', postsRouter);
 app.use('/api/comments', commentsRouter);
+app.use('/api/follows', followsRouter);
+app.use('/api/matches', matchesRouter);
 
 // Open SQLite database
 // Open SQLite database (create if it doesn't exist)
@@ -43,6 +47,7 @@ export const db = new sqlite3.Database('./users.db', (err) => {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         email TEXT NOT NULL UNIQUE,
+        password TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )`,
       `CREATE TABLE IF NOT EXISTS user_profiles (
@@ -71,6 +76,45 @@ export const db = new sqlite3.Database('./users.db', (err) => {
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
         FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
       )`,
+      `CREATE TABLE IF NOT EXISTS comments_likes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        comment_id INTEGER,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (comment_id) REFERENCES comments(id) ON DELETE CASCADE
+      )`,
+      `CREATE TABLE IF NOT EXISTS posts_likes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        post_id INTEGER,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
+      )`,
+      `CREATE TABLE IF NOT EXISTS follows (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        follower_id INTEGER,
+        followed_id INTEGER,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (follower_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (followed_id) REFERENCES users(id) ON DELETE CASCADE,
+        UNIQUE(follower_id, followed_id)
+      )`,
+      `CREATE INDEX IF NOT EXISTS idx_follower_id ON follows(follower_id)`,
+      `CREATE INDEX IF NOT EXISTS idx_followed_id ON follows(followed_id)`,
+      `CREATE TABLE IF NOT EXISTS matches (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user1_id INTEGER,
+        user2_id INTEGER,
+        matched_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user1_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (user2_id) REFERENCES users(id) ON DELETE CASCADE,
+        UNIQUE(user1_id, user2_id),
+        CHECK(user1_id <> user2_id)
+      )`,
+      `CREATE INDEX IF NOT EXISTS idx_user1_id ON matches(user1_id)`,
+      `CREATE INDEX IF NOT EXISTS idx_user2_id ON matches(user2_id)`,
     ];
 
     // Execute each CREATE TABLE statement

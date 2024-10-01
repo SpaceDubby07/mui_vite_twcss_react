@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import * as bcrypt from 'bcrypt';
 import { db } from '../index';
 import { User } from '../../types';
 
@@ -6,16 +7,24 @@ const router = express.Router();
 
 // API to write users to the database
 router.post('/', (req: Request, res: Response) => {
-  const { name, email }: User = req.body;
+  const { name, email, password }: User = req.body;
+  // Hash the password with the generated salt
+  const hashedPassword = bcrypt.hashSync(password, 10);
+
   db.run(
-    'INSERT INTO users (name, email) VALUES (?, ?)',
-    [name, email],
+    'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
+    [name, email, hashedPassword],
     function (err) {
       if (err) {
         res.status(400).json({ error: err.message });
         return;
       }
-      res.json({ id: this.lastID });
+      res.json({
+        id: this.lastID,
+        name,
+        email,
+        password: hashedPassword,
+      });
     }
   );
 });

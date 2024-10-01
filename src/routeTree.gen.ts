@@ -18,6 +18,8 @@ import { Route as DashboardIndexImport } from './routes/dashboard/index'
 import { Route as DashboardUsersImport } from './routes/dashboard/users'
 import { Route as DashboardUserProfilesImport } from './routes/dashboard/userProfiles'
 import { Route as DashboardPostsImport } from './routes/dashboard/posts'
+import { Route as DashboardMatchesImport } from './routes/dashboard/matches'
+import { Route as DashboardFollowsImport } from './routes/dashboard/follows'
 import { Route as DashboardCommentsImport } from './routes/dashboard/comments'
 
 // Create Virtual Routes
@@ -74,6 +76,16 @@ const DashboardPostsRoute = DashboardPostsImport.update({
   getParentRoute: () => DashboardRoute,
 } as any)
 
+const DashboardMatchesRoute = DashboardMatchesImport.update({
+  path: '/matches',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardFollowsRoute = DashboardFollowsImport.update({
+  path: '/follows',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
 const DashboardCommentsRoute = DashboardCommentsImport.update({
   path: '/comments',
   getParentRoute: () => DashboardRoute,
@@ -125,6 +137,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardCommentsImport
       parentRoute: typeof DashboardImport
     }
+    '/dashboard/follows': {
+      id: '/dashboard/follows'
+      path: '/follows'
+      fullPath: '/dashboard/follows'
+      preLoaderRoute: typeof DashboardFollowsImport
+      parentRoute: typeof DashboardImport
+    }
+    '/dashboard/matches': {
+      id: '/dashboard/matches'
+      path: '/matches'
+      fullPath: '/dashboard/matches'
+      preLoaderRoute: typeof DashboardMatchesImport
+      parentRoute: typeof DashboardImport
+    }
     '/dashboard/posts': {
       id: '/dashboard/posts'
       path: '/posts'
@@ -160,6 +186,8 @@ declare module '@tanstack/react-router' {
 
 interface DashboardRouteChildren {
   DashboardCommentsRoute: typeof DashboardCommentsRoute
+  DashboardFollowsRoute: typeof DashboardFollowsRoute
+  DashboardMatchesRoute: typeof DashboardMatchesRoute
   DashboardPostsRoute: typeof DashboardPostsRoute
   DashboardUserProfilesRoute: typeof DashboardUserProfilesRoute
   DashboardUsersRoute: typeof DashboardUsersRoute
@@ -168,6 +196,8 @@ interface DashboardRouteChildren {
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardCommentsRoute: DashboardCommentsRoute,
+  DashboardFollowsRoute: DashboardFollowsRoute,
+  DashboardMatchesRoute: DashboardMatchesRoute,
   DashboardPostsRoute: DashboardPostsRoute,
   DashboardUserProfilesRoute: DashboardUserProfilesRoute,
   DashboardUsersRoute: DashboardUsersRoute,
@@ -185,6 +215,8 @@ export interface FileRoutesByFullPath {
   '/log-in': typeof LogInLazyRoute
   '/sign-up': typeof SignUpLazyRoute
   '/dashboard/comments': typeof DashboardCommentsRoute
+  '/dashboard/follows': typeof DashboardFollowsRoute
+  '/dashboard/matches': typeof DashboardMatchesRoute
   '/dashboard/posts': typeof DashboardPostsRoute
   '/dashboard/userProfiles': typeof DashboardUserProfilesRoute
   '/dashboard/users': typeof DashboardUsersRoute
@@ -197,6 +229,8 @@ export interface FileRoutesByTo {
   '/log-in': typeof LogInLazyRoute
   '/sign-up': typeof SignUpLazyRoute
   '/dashboard/comments': typeof DashboardCommentsRoute
+  '/dashboard/follows': typeof DashboardFollowsRoute
+  '/dashboard/matches': typeof DashboardMatchesRoute
   '/dashboard/posts': typeof DashboardPostsRoute
   '/dashboard/userProfiles': typeof DashboardUserProfilesRoute
   '/dashboard/users': typeof DashboardUsersRoute
@@ -211,6 +245,8 @@ export interface FileRoutesById {
   '/log-in': typeof LogInLazyRoute
   '/sign-up': typeof SignUpLazyRoute
   '/dashboard/comments': typeof DashboardCommentsRoute
+  '/dashboard/follows': typeof DashboardFollowsRoute
+  '/dashboard/matches': typeof DashboardMatchesRoute
   '/dashboard/posts': typeof DashboardPostsRoute
   '/dashboard/userProfiles': typeof DashboardUserProfilesRoute
   '/dashboard/users': typeof DashboardUsersRoute
@@ -226,6 +262,8 @@ export interface FileRouteTypes {
     | '/log-in'
     | '/sign-up'
     | '/dashboard/comments'
+    | '/dashboard/follows'
+    | '/dashboard/matches'
     | '/dashboard/posts'
     | '/dashboard/userProfiles'
     | '/dashboard/users'
@@ -237,6 +275,8 @@ export interface FileRouteTypes {
     | '/log-in'
     | '/sign-up'
     | '/dashboard/comments'
+    | '/dashboard/follows'
+    | '/dashboard/matches'
     | '/dashboard/posts'
     | '/dashboard/userProfiles'
     | '/dashboard/users'
@@ -249,6 +289,8 @@ export interface FileRouteTypes {
     | '/log-in'
     | '/sign-up'
     | '/dashboard/comments'
+    | '/dashboard/follows'
+    | '/dashboard/matches'
     | '/dashboard/posts'
     | '/dashboard/userProfiles'
     | '/dashboard/users'
@@ -298,6 +340,8 @@ export const routeTree = rootRoute
       "filePath": "dashboard.tsx",
       "children": [
         "/dashboard/comments",
+        "/dashboard/follows",
+        "/dashboard/matches",
         "/dashboard/posts",
         "/dashboard/userProfiles",
         "/dashboard/users",
@@ -315,6 +359,14 @@ export const routeTree = rootRoute
     },
     "/dashboard/comments": {
       "filePath": "dashboard/comments.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/follows": {
+      "filePath": "dashboard/follows.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/matches": {
+      "filePath": "dashboard/matches.tsx",
       "parent": "/dashboard"
     },
     "/dashboard/posts": {

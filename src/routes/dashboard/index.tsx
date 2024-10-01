@@ -14,6 +14,9 @@ const Cards = () => {
   const [profileCount, setProfileCount] = useState<number>(0);
   const [postCount, setPostCount] = useState<number>(0);
   const [commentCount, setCommentCount] = useState<number>(0);
+  const [followCount, setFollowCount] = useState<number>(0);
+  const [matchesCount, setMatchCount] = useState<number>(0);
+
   useEffect(() => {
     const getUsers = async () => {
       try {
@@ -63,6 +66,32 @@ const Cards = () => {
       }
     };
 
+    const getFollows = async () => {
+      try {
+        const response = await fetch(
+          'http://localhost:3001/api/follows'
+        );
+        const data = await response.json();
+        setFollowCount(data.length);
+      } catch (error) {
+        console.error('Failed to fetch follows', error);
+      }
+    };
+
+    const getMatches = async () => {
+      try {
+        const response = await fetch(
+          'http://localhost:3001/api/matches'
+        );
+        const data = await response.json();
+        setMatchCount(data.length);
+      } catch (error) {
+        console.error('Failed to fetch matches', error);
+      }
+    };
+
+    getFollows();
+    getMatches();
     getComments();
     getPosts();
     getUsers();
@@ -128,6 +157,36 @@ const Cards = () => {
             </Typography>
 
             <Gauge width={100} height={100} value={commentCount} />
+          </CardContent>
+        </Card>
+      </Stack>
+      <Stack direction={'row'}>
+        <Card>
+          <CardContent>
+            <Typography
+              gutterBottom
+              variant="h5"
+              sx={{ color: 'text.secondary' }}
+            >
+              Total Likes Sent
+            </Typography>
+
+            <Gauge width={100} height={100} value={followCount} />
+          </CardContent>
+        </Card>
+      </Stack>
+      <Stack direction={'row'}>
+        <Card>
+          <CardContent>
+            <Typography
+              gutterBottom
+              variant="h5"
+              sx={{ color: 'text.secondary' }}
+            >
+              Total Matches
+            </Typography>
+
+            <Gauge width={100} height={100} value={matchesCount} />
           </CardContent>
         </Card>
       </Stack>

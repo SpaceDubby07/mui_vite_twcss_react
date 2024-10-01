@@ -12,14 +12,17 @@ export const AddUser: React.FC<AddUserProps> = ({
 }) => {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
 
   useEffect(() => {
     if (selectedUser) {
       setName(selectedUser.name);
       setEmail(selectedUser.email);
+      setPassword(selectedUser.password);
     } else {
       setName('');
       setEmail('');
+      setPassword('');
     }
   }, [selectedUser]);
 
@@ -50,6 +53,7 @@ export const AddUser: React.FC<AddUserProps> = ({
           setSelectedUser(null);
           setName('');
           setEmail('');
+          setPassword('');
         } else {
           alert('Error updating user');
         }
@@ -63,7 +67,7 @@ export const AddUser: React.FC<AddUserProps> = ({
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name, email }),
+            body: JSON.stringify({ name, email, password }),
           }
         );
 
@@ -71,12 +75,22 @@ export const AddUser: React.FC<AddUserProps> = ({
 
         if (response.ok) {
           alert(`User added with ID: ${data.id}`);
-          setUsers((prevState) => [
-            ...prevState,
-            { id: data.id, name, email },
-          ]);
+          // setUsers((prevState) => [
+          //   ...prevState,
+          //   { id: data.id, name, email, password },
+          // ]);
+
+          // Fetch updated users after creation
+          const updatedResponse = await fetch(
+            'http://localhost:3001/api/users'
+          );
+          const updatedUsers = await updatedResponse.json();
+
+          // Update state with the fetched users (which includes hashed passwords)
+          setUsers(updatedUsers);
           setName('');
           setEmail('');
+          setPassword('');
         } else {
           alert(`Error: ${data.error}`);
         }
@@ -122,6 +136,19 @@ export const AddUser: React.FC<AddUserProps> = ({
           m: { xs: 1, lg: 2 },
         }}
       />
+      <TextField
+        label="Password"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+        margin="normal"
+        variant="outlined"
+        sx={{
+          width: { xs: '100%', lg: '40%' },
+          m: { xs: 1, lg: 2 },
+        }}
+      />
       <Button sx={{ m: 2 }} variant="contained" type="submit">
         {isEditing ? 'Save' : 'Add User'}
       </Button>
@@ -134,6 +161,7 @@ export const AddUser: React.FC<AddUserProps> = ({
             setSelectedUser(null);
             setName('');
             setEmail('');
+            setPassword('');
           }}
         >
           Cancel

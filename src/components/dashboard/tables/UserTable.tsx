@@ -26,6 +26,7 @@ export const UserTable: React.FC<UserTableProps> = ({
             <TableCell>ID</TableCell>
             <TableCell>Name</TableCell>
             <TableCell>Email</TableCell>
+            <TableCell>Hashed Password</TableCell>
             <TableCell>Actions</TableCell>
           </TableRow>
         </TableHead>
@@ -35,6 +36,7 @@ export const UserTable: React.FC<UserTableProps> = ({
               <TableCell>{user.id}</TableCell>
               <TableCell>{user.name}</TableCell>
               <TableCell>{user.email}</TableCell>
+              <TableCell>{user.password}</TableCell>
               <TableCell>
                 <Button
                   startIcon={<EditIcon />}
