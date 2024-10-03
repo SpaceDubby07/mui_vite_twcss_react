@@ -24,22 +24,22 @@ import { Route as DashboardCommentsImport } from './routes/dashboard/comments'
 
 // Create Virtual Routes
 
-const SignUpLazyImport = createFileRoute('/sign-up')()
-const LogInLazyImport = createFileRoute('/log-in')()
+const RegisterLazyImport = createFileRoute('/register')()
+const LoginLazyImport = createFileRoute('/login')()
 const AboutLazyImport = createFileRoute('/about')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
 
-const SignUpLazyRoute = SignUpLazyImport.update({
-  path: '/sign-up',
+const RegisterLazyRoute = RegisterLazyImport.update({
+  path: '/register',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/sign-up.lazy').then((d) => d.Route))
+} as any).lazy(() => import('./routes/register.lazy').then((d) => d.Route))
 
-const LogInLazyRoute = LogInLazyImport.update({
-  path: '/log-in',
+const LoginLazyRoute = LoginLazyImport.update({
+  path: '/login',
   getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/log-in.lazy').then((d) => d.Route))
+} as any).lazy(() => import('./routes/login.lazy').then((d) => d.Route))
 
 const AboutLazyRoute = AboutLazyImport.update({
   path: '/about',
@@ -116,18 +116,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutLazyImport
       parentRoute: typeof rootRoute
     }
-    '/log-in': {
-      id: '/log-in'
-      path: '/log-in'
-      fullPath: '/log-in'
-      preLoaderRoute: typeof LogInLazyImport
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginLazyImport
       parentRoute: typeof rootRoute
     }
-    '/sign-up': {
-      id: '/sign-up'
-      path: '/sign-up'
-      fullPath: '/sign-up'
-      preLoaderRoute: typeof SignUpLazyImport
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterLazyImport
       parentRoute: typeof rootRoute
     }
     '/dashboard/comments': {
@@ -212,8 +212,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/about': typeof AboutLazyRoute
-  '/log-in': typeof LogInLazyRoute
-  '/sign-up': typeof SignUpLazyRoute
+  '/login': typeof LoginLazyRoute
+  '/register': typeof RegisterLazyRoute
   '/dashboard/comments': typeof DashboardCommentsRoute
   '/dashboard/follows': typeof DashboardFollowsRoute
   '/dashboard/matches': typeof DashboardMatchesRoute
@@ -226,8 +226,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/about': typeof AboutLazyRoute
-  '/log-in': typeof LogInLazyRoute
-  '/sign-up': typeof SignUpLazyRoute
+  '/login': typeof LoginLazyRoute
+  '/register': typeof RegisterLazyRoute
   '/dashboard/comments': typeof DashboardCommentsRoute
   '/dashboard/follows': typeof DashboardFollowsRoute
   '/dashboard/matches': typeof DashboardMatchesRoute
@@ -242,8 +242,8 @@ export interface FileRoutesById {
   '/': typeof IndexLazyRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/about': typeof AboutLazyRoute
-  '/log-in': typeof LogInLazyRoute
-  '/sign-up': typeof SignUpLazyRoute
+  '/login': typeof LoginLazyRoute
+  '/register': typeof RegisterLazyRoute
   '/dashboard/comments': typeof DashboardCommentsRoute
   '/dashboard/follows': typeof DashboardFollowsRoute
   '/dashboard/matches': typeof DashboardMatchesRoute
@@ -259,8 +259,8 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/about'
-    | '/log-in'
-    | '/sign-up'
+    | '/login'
+    | '/register'
     | '/dashboard/comments'
     | '/dashboard/follows'
     | '/dashboard/matches'
@@ -272,8 +272,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
-    | '/log-in'
-    | '/sign-up'
+    | '/login'
+    | '/register'
     | '/dashboard/comments'
     | '/dashboard/follows'
     | '/dashboard/matches'
@@ -286,8 +286,8 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/about'
-    | '/log-in'
-    | '/sign-up'
+    | '/login'
+    | '/register'
     | '/dashboard/comments'
     | '/dashboard/follows'
     | '/dashboard/matches'
@@ -302,16 +302,16 @@ export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   DashboardRoute: typeof DashboardRouteWithChildren
   AboutLazyRoute: typeof AboutLazyRoute
-  LogInLazyRoute: typeof LogInLazyRoute
-  SignUpLazyRoute: typeof SignUpLazyRoute
+  LoginLazyRoute: typeof LoginLazyRoute
+  RegisterLazyRoute: typeof RegisterLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   DashboardRoute: DashboardRouteWithChildren,
   AboutLazyRoute: AboutLazyRoute,
-  LogInLazyRoute: LogInLazyRoute,
-  SignUpLazyRoute: SignUpLazyRoute,
+  LoginLazyRoute: LoginLazyRoute,
+  RegisterLazyRoute: RegisterLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -329,8 +329,8 @@ export const routeTree = rootRoute
         "/",
         "/dashboard",
         "/about",
-        "/log-in",
-        "/sign-up"
+        "/login",
+        "/register"
       ]
     },
     "/": {
@@ -351,11 +351,11 @@ export const routeTree = rootRoute
     "/about": {
       "filePath": "about.lazy.tsx"
     },
-    "/log-in": {
-      "filePath": "log-in.lazy.tsx"
+    "/login": {
+      "filePath": "login.lazy.tsx"
     },
-    "/sign-up": {
-      "filePath": "sign-up.lazy.tsx"
+    "/register": {
+      "filePath": "register.lazy.tsx"
     },
     "/dashboard/comments": {
       "filePath": "dashboard/comments.tsx",

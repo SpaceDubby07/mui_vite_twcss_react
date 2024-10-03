@@ -8,6 +8,8 @@ import postsRouter from './routes/posts';
 import commentsRouter from './routes/comments';
 import followsRouter from './routes/follows';
 import matchesRouter from './routes/matches';
+import registerRouter from './routes/register';
+import loginRouter from './routes/login';
 
 const app = express();
 const port = 3001;
@@ -23,6 +25,8 @@ app.use('/api/posts', postsRouter);
 app.use('/api/comments', commentsRouter);
 app.use('/api/follows', followsRouter);
 app.use('/api/matches', matchesRouter);
+app.use('/api/register', registerRouter);
+app.use('/api/login', loginRouter);
 
 // Open SQLite database
 // Open SQLite database (create if it doesn't exist)
@@ -115,6 +119,13 @@ export const db = new sqlite3.Database('./users.db', (err) => {
       )`,
       `CREATE INDEX IF NOT EXISTS idx_user1_id ON matches(user1_id)`,
       `CREATE INDEX IF NOT EXISTS idx_user2_id ON matches(user2_id)`,
+      `CREATE TABLE IF NOT EXISTS verification_tokens (
+        id INTEGER PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        token TEXT NOT NULL,
+        expires_at DATETIME NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users (id)
+      );`,
     ];
 
     // Execute each CREATE TABLE statement

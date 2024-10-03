@@ -123,4 +123,20 @@ router.delete('/:id', (req, res) => {
   });
 });
 
+// Get user count by day
+router.get('/count/:date', (req: Request, res: Response) => {
+  const { date } = req.params;
+  db.get(
+    `SELECT COUNT(*) as count FROM users WHERE DATE(created_at) = ?`,
+    [date],
+    (err, row: { count: number }) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+        return;
+      }
+      res.json({ count: row.count });
+    }
+  );
+});
+
 export default router;

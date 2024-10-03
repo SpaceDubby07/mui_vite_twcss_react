@@ -39,21 +39,21 @@ export default function Nav() {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem onClick={handleClose}>
-          <a href="#featured">Features</a>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <a href="#pricing">Pricing</a>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Link to="/sign-up">Sign Up</Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Link to="/log-in">Log In</Link>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Link to="/dashboard">Dashboard</Link>
-        </MenuItem>
+        <a href="#featured">
+          <MenuItem onClick={handleClose}>Features</MenuItem>
+        </a>
+        <a href="#pricing">
+          <MenuItem onClick={handleClose}>Pricing</MenuItem>
+        </a>
+        <Link to="/register">
+          <MenuItem onClick={handleClose}>Sign Up</MenuItem>
+        </Link>
+        <Link to="/login">
+          <MenuItem onClick={handleClose}>Log In</MenuItem>
+        </Link>
+        <Link to="/dashboard">
+          <MenuItem onClick={handleClose}>Dashboard</MenuItem>
+        </Link>
       </Menu>
     </div>
   );
