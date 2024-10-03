@@ -1,12 +1,28 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { theme } from '../theme/Theme';
 import Cookies from 'js-cookie';
+import { Link } from '@tanstack/react-router';
+import { verifyToken } from '../../utils/functions';
 
 export default function Login() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
+
+  // perform a check to see if the user is already logged in and accidentally returns to the login page
+  useEffect(() => {
+    const token = Cookies.get('token');
+    if (token) {
+      verifyToken()
+        .then((userId) => {
+          window.location.href = `/home/${userId}`;
+        })
+        .catch((error) => {
+          console.error('Failed to verify token', error);
+        });
+    }
+  }, []);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -43,8 +59,18 @@ export default function Login() {
         setError('');
 
         if (token) {
-          //   window.location.href = '/dashboard';
           console.log('login success: ', token);
+
+          //TODO: if login is succesfful, redirect to home/$userId
+          if (Cookies.get('token')) {
+            try {
+              const userId = await verifyToken(); // Get the user ID from verifyToken
+              // Redirect to the user's profile page
+              window.location.href = `/home/${userId}`; // Use the retrieved user ID
+            } catch (error) {
+              console.error('Failed to verify token', error);
+            }
+          }
         }
       }
     } catch (error) {
@@ -121,6 +147,12 @@ export default function Login() {
         <Button type="submit" variant="contained">
           Log In
         </Button>
+        <Link
+          className="text-blue-400 text-center text-sm"
+          to="/register"
+        >
+          Don't have an account? Sign Up
+        </Link>
       </Box>
     </Box>
   );

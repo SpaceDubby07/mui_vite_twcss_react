@@ -2,6 +2,7 @@ import express from 'express';
 import sqlite3 from 'sqlite3';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import usersRouter from './routes/users';
 import userProfilesRouter from './routes/userProfiles';
 import postsRouter from './routes/posts';
@@ -10,13 +11,22 @@ import followsRouter from './routes/follows';
 import matchesRouter from './routes/matches';
 import registerRouter from './routes/register';
 import loginRouter from './routes/login';
+import tokenRouter from './routes/token';
 
 const app = express();
 const port = 3001;
 
 // Middleware to parse JSON
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cookieParser());
+
+// CORS Configuration
+const corsOptions = {
+  origin: 'http://localhost:3000', // Allow only your frontend
+  credentials: true, // Allow cookies to be sent
+};
+
+app.use(cors(corsOptions));
 
 // Routes
 app.use('/api/users', usersRouter);
@@ -27,6 +37,7 @@ app.use('/api/follows', followsRouter);
 app.use('/api/matches', matchesRouter);
 app.use('/api/register', registerRouter);
 app.use('/api/login', loginRouter);
+app.use('/api/token', tokenRouter);
 
 // Open SQLite database
 // Open SQLite database (create if it doesn't exist)
@@ -124,7 +135,7 @@ export const db = new sqlite3.Database('./users.db', (err) => {
         user_id INTEGER NOT NULL,
         token TEXT NOT NULL,
         expires_at DATETIME NOT NULL,
-        FOREIGN KEY (user_id) REFERENCES users (id)
+        FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
       );`,
     ];
 

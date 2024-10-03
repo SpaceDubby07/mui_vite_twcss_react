@@ -63,7 +63,7 @@ export const AddUser: React.FC<AddUserProps> = ({
     } else {
       try {
         const response = await fetch(
-          'http://localhost:3001/api/users',
+          'http://localhost:3001/api/register',
           {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -75,10 +75,6 @@ export const AddUser: React.FC<AddUserProps> = ({
 
         if (response.ok) {
           alert(`User added with ID: ${data.id}`);
-          // setUsers((prevState) => [
-          //   ...prevState,
-          //   { id: data.id, name, email, password },
-          // ]);
 
           // Fetch updated users after creation
           const updatedResponse = await fetch(

@@ -1,6 +1,7 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import { FormEvent, useState } from 'react';
 import { theme } from '../theme/Theme';
+import { Link } from '@tanstack/react-router';
 
 export default function Register() {
   const [name, setName] = useState<string>('');
@@ -116,6 +117,12 @@ export default function Register() {
         <Button type="submit" variant="contained">
           Register
         </Button>
+        <Link
+          className="text-blue-400 text-sm text-center"
+          to="/login"
+        >
+          Already have an account? Log In
+        </Link>
       </Box>
     </Box>
   );

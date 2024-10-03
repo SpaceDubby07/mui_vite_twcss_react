@@ -1,33 +1,7 @@
 import express, { Request, Response } from 'express';
-import * as bcrypt from 'bcrypt';
 import { db } from '../index';
-import { User } from '../../types';
 
 const router = express.Router();
-
-// API to write users to the database
-router.post('/', (req: Request, res: Response) => {
-  const { name, email, password }: User = req.body;
-  // Hash the password with the generated salt
-  const hashedPassword = bcrypt.hashSync(password, 10);
-
-  db.run(
-    'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
-    [name, email, hashedPassword],
-    function (err) {
-      if (err) {
-        res.status(400).json({ error: err.message });
-        return;
-      }
-      res.json({
-        id: this.lastID,
-        name,
-        email,
-        password: hashedPassword,
-      });
-    }
-  );
-});
 
 // api to get all the users from the database
 router.get('/', (req: Request, res: Response) => {
@@ -37,6 +11,21 @@ router.get('/', (req: Request, res: Response) => {
       return;
     }
     res.json(rows);
+  });
+});
+
+router.get('/:id', (req: Request, res: Response) => {
+  const { id } = req.params;
+  db.get('SELECT * FROM users WHERE id = ?', [id], (err, row) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
+    if (!row) {
+      res.status(404).json({ error: 'User not found' });
+      return;
+    }
+    res.json(row);
   });
 });
 

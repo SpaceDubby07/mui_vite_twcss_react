@@ -13,8 +13,9 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as DashboardImport } from './routes/dashboard'
+import { Route as HomeIndexImport } from './routes/home/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
+import { Route as HomeUserIdImport } from './routes/home/$userId'
 import { Route as DashboardUsersImport } from './routes/dashboard/users'
 import { Route as DashboardUserProfilesImport } from './routes/dashboard/userProfiles'
 import { Route as DashboardPostsImport } from './routes/dashboard/posts'
@@ -26,6 +27,8 @@ import { Route as DashboardCommentsImport } from './routes/dashboard/comments'
 
 const RegisterLazyImport = createFileRoute('/register')()
 const LoginLazyImport = createFileRoute('/login')()
+const HomeLazyImport = createFileRoute('/home')()
+const DashboardLazyImport = createFileRoute('/dashboard')()
 const AboutLazyImport = createFileRoute('/about')()
 const IndexLazyImport = createFileRoute('/')()
 
@@ -41,54 +44,69 @@ const LoginLazyRoute = LoginLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/login.lazy').then((d) => d.Route))
 
+const HomeLazyRoute = HomeLazyImport.update({
+  path: '/home',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/home.lazy').then((d) => d.Route))
+
+const DashboardLazyRoute = DashboardLazyImport.update({
+  path: '/dashboard',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/dashboard.lazy').then((d) => d.Route))
+
 const AboutLazyRoute = AboutLazyImport.update({
   path: '/about',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
-
-const DashboardRoute = DashboardImport.update({
-  path: '/dashboard',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
+const HomeIndexRoute = HomeIndexImport.update({
+  path: '/',
+  getParentRoute: () => HomeLazyRoute,
+} as any)
+
 const DashboardIndexRoute = DashboardIndexImport.update({
   path: '/',
-  getParentRoute: () => DashboardRoute,
+  getParentRoute: () => DashboardLazyRoute,
+} as any)
+
+const HomeUserIdRoute = HomeUserIdImport.update({
+  path: '/$userId',
+  getParentRoute: () => HomeLazyRoute,
 } as any)
 
 const DashboardUsersRoute = DashboardUsersImport.update({
   path: '/users',
-  getParentRoute: () => DashboardRoute,
+  getParentRoute: () => DashboardLazyRoute,
 } as any)
 
 const DashboardUserProfilesRoute = DashboardUserProfilesImport.update({
   path: '/userProfiles',
-  getParentRoute: () => DashboardRoute,
+  getParentRoute: () => DashboardLazyRoute,
 } as any)
 
 const DashboardPostsRoute = DashboardPostsImport.update({
   path: '/posts',
-  getParentRoute: () => DashboardRoute,
+  getParentRoute: () => DashboardLazyRoute,
 } as any)
 
 const DashboardMatchesRoute = DashboardMatchesImport.update({
   path: '/matches',
-  getParentRoute: () => DashboardRoute,
+  getParentRoute: () => DashboardLazyRoute,
 } as any)
 
 const DashboardFollowsRoute = DashboardFollowsImport.update({
   path: '/follows',
-  getParentRoute: () => DashboardRoute,
+  getParentRoute: () => DashboardLazyRoute,
 } as any)
 
 const DashboardCommentsRoute = DashboardCommentsImport.update({
   path: '/comments',
-  getParentRoute: () => DashboardRoute,
+  getParentRoute: () => DashboardLazyRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -102,18 +120,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardImport
-      parentRoute: typeof rootRoute
-    }
     '/about': {
       id: '/about'
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/home': {
+      id: '/home'
+      path: '/home'
+      fullPath: '/home'
+      preLoaderRoute: typeof HomeLazyImport
       parentRoute: typeof rootRoute
     }
     '/login': {
@@ -135,56 +160,70 @@ declare module '@tanstack/react-router' {
       path: '/comments'
       fullPath: '/dashboard/comments'
       preLoaderRoute: typeof DashboardCommentsImport
-      parentRoute: typeof DashboardImport
+      parentRoute: typeof DashboardLazyImport
     }
     '/dashboard/follows': {
       id: '/dashboard/follows'
       path: '/follows'
       fullPath: '/dashboard/follows'
       preLoaderRoute: typeof DashboardFollowsImport
-      parentRoute: typeof DashboardImport
+      parentRoute: typeof DashboardLazyImport
     }
     '/dashboard/matches': {
       id: '/dashboard/matches'
       path: '/matches'
       fullPath: '/dashboard/matches'
       preLoaderRoute: typeof DashboardMatchesImport
-      parentRoute: typeof DashboardImport
+      parentRoute: typeof DashboardLazyImport
     }
     '/dashboard/posts': {
       id: '/dashboard/posts'
       path: '/posts'
       fullPath: '/dashboard/posts'
       preLoaderRoute: typeof DashboardPostsImport
-      parentRoute: typeof DashboardImport
+      parentRoute: typeof DashboardLazyImport
     }
     '/dashboard/userProfiles': {
       id: '/dashboard/userProfiles'
       path: '/userProfiles'
       fullPath: '/dashboard/userProfiles'
       preLoaderRoute: typeof DashboardUserProfilesImport
-      parentRoute: typeof DashboardImport
+      parentRoute: typeof DashboardLazyImport
     }
     '/dashboard/users': {
       id: '/dashboard/users'
       path: '/users'
       fullPath: '/dashboard/users'
       preLoaderRoute: typeof DashboardUsersImport
-      parentRoute: typeof DashboardImport
+      parentRoute: typeof DashboardLazyImport
+    }
+    '/home/$userId': {
+      id: '/home/$userId'
+      path: '/$userId'
+      fullPath: '/home/$userId'
+      preLoaderRoute: typeof HomeUserIdImport
+      parentRoute: typeof HomeLazyImport
     }
     '/dashboard/': {
       id: '/dashboard/'
       path: '/'
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexImport
-      parentRoute: typeof DashboardImport
+      parentRoute: typeof DashboardLazyImport
+    }
+    '/home/': {
+      id: '/home/'
+      path: '/'
+      fullPath: '/home/'
+      preLoaderRoute: typeof HomeIndexImport
+      parentRoute: typeof HomeLazyImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface DashboardRouteChildren {
+interface DashboardLazyRouteChildren {
   DashboardCommentsRoute: typeof DashboardCommentsRoute
   DashboardFollowsRoute: typeof DashboardFollowsRoute
   DashboardMatchesRoute: typeof DashboardMatchesRoute
@@ -194,7 +233,7 @@ interface DashboardRouteChildren {
   DashboardIndexRoute: typeof DashboardIndexRoute
 }
 
-const DashboardRouteChildren: DashboardRouteChildren = {
+const DashboardLazyRouteChildren: DashboardLazyRouteChildren = {
   DashboardCommentsRoute: DashboardCommentsRoute,
   DashboardFollowsRoute: DashboardFollowsRoute,
   DashboardMatchesRoute: DashboardMatchesRoute,
@@ -204,14 +243,29 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardIndexRoute: DashboardIndexRoute,
 }
 
-const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
-  DashboardRouteChildren,
+const DashboardLazyRouteWithChildren = DashboardLazyRoute._addFileChildren(
+  DashboardLazyRouteChildren,
+)
+
+interface HomeLazyRouteChildren {
+  HomeUserIdRoute: typeof HomeUserIdRoute
+  HomeIndexRoute: typeof HomeIndexRoute
+}
+
+const HomeLazyRouteChildren: HomeLazyRouteChildren = {
+  HomeUserIdRoute: HomeUserIdRoute,
+  HomeIndexRoute: HomeIndexRoute,
+}
+
+const HomeLazyRouteWithChildren = HomeLazyRoute._addFileChildren(
+  HomeLazyRouteChildren,
 )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '/dashboard': typeof DashboardRouteWithChildren
   '/about': typeof AboutLazyRoute
+  '/dashboard': typeof DashboardLazyRouteWithChildren
+  '/home': typeof HomeLazyRouteWithChildren
   '/login': typeof LoginLazyRoute
   '/register': typeof RegisterLazyRoute
   '/dashboard/comments': typeof DashboardCommentsRoute
@@ -220,7 +274,9 @@ export interface FileRoutesByFullPath {
   '/dashboard/posts': typeof DashboardPostsRoute
   '/dashboard/userProfiles': typeof DashboardUserProfilesRoute
   '/dashboard/users': typeof DashboardUsersRoute
+  '/home/$userId': typeof HomeUserIdRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/home/': typeof HomeIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -234,14 +290,17 @@ export interface FileRoutesByTo {
   '/dashboard/posts': typeof DashboardPostsRoute
   '/dashboard/userProfiles': typeof DashboardUserProfilesRoute
   '/dashboard/users': typeof DashboardUsersRoute
+  '/home/$userId': typeof HomeUserIdRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/home': typeof HomeIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
-  '/dashboard': typeof DashboardRouteWithChildren
   '/about': typeof AboutLazyRoute
+  '/dashboard': typeof DashboardLazyRouteWithChildren
+  '/home': typeof HomeLazyRouteWithChildren
   '/login': typeof LoginLazyRoute
   '/register': typeof RegisterLazyRoute
   '/dashboard/comments': typeof DashboardCommentsRoute
@@ -250,15 +309,18 @@ export interface FileRoutesById {
   '/dashboard/posts': typeof DashboardPostsRoute
   '/dashboard/userProfiles': typeof DashboardUserProfilesRoute
   '/dashboard/users': typeof DashboardUsersRoute
+  '/home/$userId': typeof HomeUserIdRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/home/': typeof HomeIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/dashboard'
     | '/about'
+    | '/dashboard'
+    | '/home'
     | '/login'
     | '/register'
     | '/dashboard/comments'
@@ -267,7 +329,9 @@ export interface FileRouteTypes {
     | '/dashboard/posts'
     | '/dashboard/userProfiles'
     | '/dashboard/users'
+    | '/home/$userId'
     | '/dashboard/'
+    | '/home/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -280,12 +344,15 @@ export interface FileRouteTypes {
     | '/dashboard/posts'
     | '/dashboard/userProfiles'
     | '/dashboard/users'
+    | '/home/$userId'
     | '/dashboard'
+    | '/home'
   id:
     | '__root__'
     | '/'
-    | '/dashboard'
     | '/about'
+    | '/dashboard'
+    | '/home'
     | '/login'
     | '/register'
     | '/dashboard/comments'
@@ -294,22 +361,26 @@ export interface FileRouteTypes {
     | '/dashboard/posts'
     | '/dashboard/userProfiles'
     | '/dashboard/users'
+    | '/home/$userId'
     | '/dashboard/'
+    | '/home/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
-  DashboardRoute: typeof DashboardRouteWithChildren
   AboutLazyRoute: typeof AboutLazyRoute
+  DashboardLazyRoute: typeof DashboardLazyRouteWithChildren
+  HomeLazyRoute: typeof HomeLazyRouteWithChildren
   LoginLazyRoute: typeof LoginLazyRoute
   RegisterLazyRoute: typeof RegisterLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
-  DashboardRoute: DashboardRouteWithChildren,
   AboutLazyRoute: AboutLazyRoute,
+  DashboardLazyRoute: DashboardLazyRouteWithChildren,
+  HomeLazyRoute: HomeLazyRouteWithChildren,
   LoginLazyRoute: LoginLazyRoute,
   RegisterLazyRoute: RegisterLazyRoute,
 }
@@ -327,8 +398,9 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/dashboard",
         "/about",
+        "/dashboard",
+        "/home",
         "/login",
         "/register"
       ]
@@ -336,8 +408,11 @@ export const routeTree = rootRoute
     "/": {
       "filePath": "index.lazy.tsx"
     },
+    "/about": {
+      "filePath": "about.lazy.tsx"
+    },
     "/dashboard": {
-      "filePath": "dashboard.tsx",
+      "filePath": "dashboard.lazy.tsx",
       "children": [
         "/dashboard/comments",
         "/dashboard/follows",
@@ -348,8 +423,12 @@ export const routeTree = rootRoute
         "/dashboard/"
       ]
     },
-    "/about": {
-      "filePath": "about.lazy.tsx"
+    "/home": {
+      "filePath": "home.lazy.tsx",
+      "children": [
+        "/home/$userId",
+        "/home/"
+      ]
     },
     "/login": {
       "filePath": "login.lazy.tsx"
@@ -381,9 +460,17 @@ export const routeTree = rootRoute
       "filePath": "dashboard/users.tsx",
       "parent": "/dashboard"
     },
+    "/home/$userId": {
+      "filePath": "home/$userId.tsx",
+      "parent": "/home"
+    },
     "/dashboard/": {
       "filePath": "dashboard/index.tsx",
       "parent": "/dashboard"
+    },
+    "/home/": {
+      "filePath": "home/index.tsx",
+      "parent": "/home"
     }
   }
 }
