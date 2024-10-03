@@ -1,15 +1,16 @@
-import { createFileRoute, useParams } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { User } from '../../../types';
-import { Button } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
+import { User } from '../../../../types';
 import {
   useLogout,
+  useUser,
   useUserVerification,
   verifyToken,
-} from '../../utils/functions';
+} from '../../../utils/functions';
 
 function Comp() {
-  const { userId } = useParams({ from: `/home/$userId` });
+  const { userId } = useUser();
   const [user, setUser] = useState<User>();
   const [loading, setLoading] = useState(true); // Add a loading state
   const logout = useLogout();
@@ -32,7 +33,11 @@ function Comp() {
 
   // If loading, show a loading message
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="mt-40 flex justify-center items-center mx-auto">
+        <CircularProgress />
+      </div>
+    );
   }
 
   // If no user is found, take the user to the login screen or show an error message
@@ -51,7 +56,6 @@ function Comp() {
   );
 }
 
-export const Route = createFileRoute('/home/$userId')({
-  // get user id from route params
+export const Route = createFileRoute('/home/$userId/')({
   component: () => <Comp />,
 });

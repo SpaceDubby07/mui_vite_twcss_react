@@ -1,6 +1,7 @@
 import { useNavigate } from '@tanstack/react-router';
 import Cookies from 'js-cookie';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
+import { UserContext } from '../providers/UserContext';
 
 // verify a users token, if it exists, add return their user id
 export const verifyToken = async () => {
@@ -18,7 +19,6 @@ export const verifyToken = async () => {
     }
 
     const data = await response.json();
-    console.log('User ID from token:', data.id);
     return data.id; // Return the user ID
   } catch (error) {
     console.error('Failed to verify token', error);
@@ -67,4 +67,13 @@ export const useLogout = () => {
   };
 
   return logout;
+};
+
+// Hook to use the user context
+export const useUser = () => {
+  const context = useContext(UserContext);
+  if (context === undefined) {
+    throw new Error('useUser must be used within a UserProvider');
+  }
+  return context;
 };

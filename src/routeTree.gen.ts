@@ -15,13 +15,24 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as HomeIndexImport } from './routes/home/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
-import { Route as HomeUserIdImport } from './routes/home/$userId'
 import { Route as DashboardUsersImport } from './routes/dashboard/users'
 import { Route as DashboardUserProfilesImport } from './routes/dashboard/userProfiles'
 import { Route as DashboardPostsImport } from './routes/dashboard/posts'
 import { Route as DashboardMatchesImport } from './routes/dashboard/matches'
 import { Route as DashboardFollowsImport } from './routes/dashboard/follows'
 import { Route as DashboardCommentsImport } from './routes/dashboard/comments'
+import { Route as HomeUserIdIndexImport } from './routes/home/$userId/index'
+import { Route as HomeUserIdSubscriptionsImport } from './routes/home/$userId/subscriptions'
+import { Route as HomeUserIdSettingsImport } from './routes/home/$userId/settings'
+import { Route as HomeUserIdProfileImport } from './routes/home/$userId/profile'
+import { Route as HomeUserIdPostsImport } from './routes/home/$userId/posts'
+import { Route as HomeUserIdMessagesImport } from './routes/home/$userId/messages'
+import { Route as HomeUserIdMatchesImport } from './routes/home/$userId/matches'
+import { Route as HomeUserIdLikesSentImport } from './routes/home/$userId/likes-sent'
+import { Route as HomeUserIdLikesReceivedImport } from './routes/home/$userId/likes-received'
+import { Route as HomeUserIdEventsImport } from './routes/home/$userId/events'
+import { Route as HomeUserIdCommentsImport } from './routes/home/$userId/comments'
+import { Route as HomeUserIdBlockedImport } from './routes/home/$userId/blocked'
 
 // Create Virtual Routes
 
@@ -74,11 +85,6 @@ const DashboardIndexRoute = DashboardIndexImport.update({
   getParentRoute: () => DashboardLazyRoute,
 } as any)
 
-const HomeUserIdRoute = HomeUserIdImport.update({
-  path: '/$userId',
-  getParentRoute: () => HomeLazyRoute,
-} as any)
-
 const DashboardUsersRoute = DashboardUsersImport.update({
   path: '/users',
   getParentRoute: () => DashboardLazyRoute,
@@ -107,6 +113,66 @@ const DashboardFollowsRoute = DashboardFollowsImport.update({
 const DashboardCommentsRoute = DashboardCommentsImport.update({
   path: '/comments',
   getParentRoute: () => DashboardLazyRoute,
+} as any)
+
+const HomeUserIdIndexRoute = HomeUserIdIndexImport.update({
+  path: '/$userId/',
+  getParentRoute: () => HomeLazyRoute,
+} as any)
+
+const HomeUserIdSubscriptionsRoute = HomeUserIdSubscriptionsImport.update({
+  path: '/$userId/subscriptions',
+  getParentRoute: () => HomeLazyRoute,
+} as any)
+
+const HomeUserIdSettingsRoute = HomeUserIdSettingsImport.update({
+  path: '/$userId/settings',
+  getParentRoute: () => HomeLazyRoute,
+} as any)
+
+const HomeUserIdProfileRoute = HomeUserIdProfileImport.update({
+  path: '/$userId/profile',
+  getParentRoute: () => HomeLazyRoute,
+} as any)
+
+const HomeUserIdPostsRoute = HomeUserIdPostsImport.update({
+  path: '/$userId/posts',
+  getParentRoute: () => HomeLazyRoute,
+} as any)
+
+const HomeUserIdMessagesRoute = HomeUserIdMessagesImport.update({
+  path: '/$userId/messages',
+  getParentRoute: () => HomeLazyRoute,
+} as any)
+
+const HomeUserIdMatchesRoute = HomeUserIdMatchesImport.update({
+  path: '/$userId/matches',
+  getParentRoute: () => HomeLazyRoute,
+} as any)
+
+const HomeUserIdLikesSentRoute = HomeUserIdLikesSentImport.update({
+  path: '/$userId/likes-sent',
+  getParentRoute: () => HomeLazyRoute,
+} as any)
+
+const HomeUserIdLikesReceivedRoute = HomeUserIdLikesReceivedImport.update({
+  path: '/$userId/likes-received',
+  getParentRoute: () => HomeLazyRoute,
+} as any)
+
+const HomeUserIdEventsRoute = HomeUserIdEventsImport.update({
+  path: '/$userId/events',
+  getParentRoute: () => HomeLazyRoute,
+} as any)
+
+const HomeUserIdCommentsRoute = HomeUserIdCommentsImport.update({
+  path: '/$userId/comments',
+  getParentRoute: () => HomeLazyRoute,
+} as any)
+
+const HomeUserIdBlockedRoute = HomeUserIdBlockedImport.update({
+  path: '/$userId/blocked',
+  getParentRoute: () => HomeLazyRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -197,13 +263,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardUsersImport
       parentRoute: typeof DashboardLazyImport
     }
-    '/home/$userId': {
-      id: '/home/$userId'
-      path: '/$userId'
-      fullPath: '/home/$userId'
-      preLoaderRoute: typeof HomeUserIdImport
-      parentRoute: typeof HomeLazyImport
-    }
     '/dashboard/': {
       id: '/dashboard/'
       path: '/'
@@ -216,6 +275,90 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/home/'
       preLoaderRoute: typeof HomeIndexImport
+      parentRoute: typeof HomeLazyImport
+    }
+    '/home/$userId/blocked': {
+      id: '/home/$userId/blocked'
+      path: '/$userId/blocked'
+      fullPath: '/home/$userId/blocked'
+      preLoaderRoute: typeof HomeUserIdBlockedImport
+      parentRoute: typeof HomeLazyImport
+    }
+    '/home/$userId/comments': {
+      id: '/home/$userId/comments'
+      path: '/$userId/comments'
+      fullPath: '/home/$userId/comments'
+      preLoaderRoute: typeof HomeUserIdCommentsImport
+      parentRoute: typeof HomeLazyImport
+    }
+    '/home/$userId/events': {
+      id: '/home/$userId/events'
+      path: '/$userId/events'
+      fullPath: '/home/$userId/events'
+      preLoaderRoute: typeof HomeUserIdEventsImport
+      parentRoute: typeof HomeLazyImport
+    }
+    '/home/$userId/likes-received': {
+      id: '/home/$userId/likes-received'
+      path: '/$userId/likes-received'
+      fullPath: '/home/$userId/likes-received'
+      preLoaderRoute: typeof HomeUserIdLikesReceivedImport
+      parentRoute: typeof HomeLazyImport
+    }
+    '/home/$userId/likes-sent': {
+      id: '/home/$userId/likes-sent'
+      path: '/$userId/likes-sent'
+      fullPath: '/home/$userId/likes-sent'
+      preLoaderRoute: typeof HomeUserIdLikesSentImport
+      parentRoute: typeof HomeLazyImport
+    }
+    '/home/$userId/matches': {
+      id: '/home/$userId/matches'
+      path: '/$userId/matches'
+      fullPath: '/home/$userId/matches'
+      preLoaderRoute: typeof HomeUserIdMatchesImport
+      parentRoute: typeof HomeLazyImport
+    }
+    '/home/$userId/messages': {
+      id: '/home/$userId/messages'
+      path: '/$userId/messages'
+      fullPath: '/home/$userId/messages'
+      preLoaderRoute: typeof HomeUserIdMessagesImport
+      parentRoute: typeof HomeLazyImport
+    }
+    '/home/$userId/posts': {
+      id: '/home/$userId/posts'
+      path: '/$userId/posts'
+      fullPath: '/home/$userId/posts'
+      preLoaderRoute: typeof HomeUserIdPostsImport
+      parentRoute: typeof HomeLazyImport
+    }
+    '/home/$userId/profile': {
+      id: '/home/$userId/profile'
+      path: '/$userId/profile'
+      fullPath: '/home/$userId/profile'
+      preLoaderRoute: typeof HomeUserIdProfileImport
+      parentRoute: typeof HomeLazyImport
+    }
+    '/home/$userId/settings': {
+      id: '/home/$userId/settings'
+      path: '/$userId/settings'
+      fullPath: '/home/$userId/settings'
+      preLoaderRoute: typeof HomeUserIdSettingsImport
+      parentRoute: typeof HomeLazyImport
+    }
+    '/home/$userId/subscriptions': {
+      id: '/home/$userId/subscriptions'
+      path: '/$userId/subscriptions'
+      fullPath: '/home/$userId/subscriptions'
+      preLoaderRoute: typeof HomeUserIdSubscriptionsImport
+      parentRoute: typeof HomeLazyImport
+    }
+    '/home/$userId/': {
+      id: '/home/$userId/'
+      path: '/$userId'
+      fullPath: '/home/$userId'
+      preLoaderRoute: typeof HomeUserIdIndexImport
       parentRoute: typeof HomeLazyImport
     }
   }
@@ -248,13 +391,35 @@ const DashboardLazyRouteWithChildren = DashboardLazyRoute._addFileChildren(
 )
 
 interface HomeLazyRouteChildren {
-  HomeUserIdRoute: typeof HomeUserIdRoute
   HomeIndexRoute: typeof HomeIndexRoute
+  HomeUserIdBlockedRoute: typeof HomeUserIdBlockedRoute
+  HomeUserIdCommentsRoute: typeof HomeUserIdCommentsRoute
+  HomeUserIdEventsRoute: typeof HomeUserIdEventsRoute
+  HomeUserIdLikesReceivedRoute: typeof HomeUserIdLikesReceivedRoute
+  HomeUserIdLikesSentRoute: typeof HomeUserIdLikesSentRoute
+  HomeUserIdMatchesRoute: typeof HomeUserIdMatchesRoute
+  HomeUserIdMessagesRoute: typeof HomeUserIdMessagesRoute
+  HomeUserIdPostsRoute: typeof HomeUserIdPostsRoute
+  HomeUserIdProfileRoute: typeof HomeUserIdProfileRoute
+  HomeUserIdSettingsRoute: typeof HomeUserIdSettingsRoute
+  HomeUserIdSubscriptionsRoute: typeof HomeUserIdSubscriptionsRoute
+  HomeUserIdIndexRoute: typeof HomeUserIdIndexRoute
 }
 
 const HomeLazyRouteChildren: HomeLazyRouteChildren = {
-  HomeUserIdRoute: HomeUserIdRoute,
   HomeIndexRoute: HomeIndexRoute,
+  HomeUserIdBlockedRoute: HomeUserIdBlockedRoute,
+  HomeUserIdCommentsRoute: HomeUserIdCommentsRoute,
+  HomeUserIdEventsRoute: HomeUserIdEventsRoute,
+  HomeUserIdLikesReceivedRoute: HomeUserIdLikesReceivedRoute,
+  HomeUserIdLikesSentRoute: HomeUserIdLikesSentRoute,
+  HomeUserIdMatchesRoute: HomeUserIdMatchesRoute,
+  HomeUserIdMessagesRoute: HomeUserIdMessagesRoute,
+  HomeUserIdPostsRoute: HomeUserIdPostsRoute,
+  HomeUserIdProfileRoute: HomeUserIdProfileRoute,
+  HomeUserIdSettingsRoute: HomeUserIdSettingsRoute,
+  HomeUserIdSubscriptionsRoute: HomeUserIdSubscriptionsRoute,
+  HomeUserIdIndexRoute: HomeUserIdIndexRoute,
 }
 
 const HomeLazyRouteWithChildren = HomeLazyRoute._addFileChildren(
@@ -274,9 +439,20 @@ export interface FileRoutesByFullPath {
   '/dashboard/posts': typeof DashboardPostsRoute
   '/dashboard/userProfiles': typeof DashboardUserProfilesRoute
   '/dashboard/users': typeof DashboardUsersRoute
-  '/home/$userId': typeof HomeUserIdRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/home/': typeof HomeIndexRoute
+  '/home/$userId/blocked': typeof HomeUserIdBlockedRoute
+  '/home/$userId/comments': typeof HomeUserIdCommentsRoute
+  '/home/$userId/events': typeof HomeUserIdEventsRoute
+  '/home/$userId/likes-received': typeof HomeUserIdLikesReceivedRoute
+  '/home/$userId/likes-sent': typeof HomeUserIdLikesSentRoute
+  '/home/$userId/matches': typeof HomeUserIdMatchesRoute
+  '/home/$userId/messages': typeof HomeUserIdMessagesRoute
+  '/home/$userId/posts': typeof HomeUserIdPostsRoute
+  '/home/$userId/profile': typeof HomeUserIdProfileRoute
+  '/home/$userId/settings': typeof HomeUserIdSettingsRoute
+  '/home/$userId/subscriptions': typeof HomeUserIdSubscriptionsRoute
+  '/home/$userId': typeof HomeUserIdIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -290,9 +466,20 @@ export interface FileRoutesByTo {
   '/dashboard/posts': typeof DashboardPostsRoute
   '/dashboard/userProfiles': typeof DashboardUserProfilesRoute
   '/dashboard/users': typeof DashboardUsersRoute
-  '/home/$userId': typeof HomeUserIdRoute
   '/dashboard': typeof DashboardIndexRoute
   '/home': typeof HomeIndexRoute
+  '/home/$userId/blocked': typeof HomeUserIdBlockedRoute
+  '/home/$userId/comments': typeof HomeUserIdCommentsRoute
+  '/home/$userId/events': typeof HomeUserIdEventsRoute
+  '/home/$userId/likes-received': typeof HomeUserIdLikesReceivedRoute
+  '/home/$userId/likes-sent': typeof HomeUserIdLikesSentRoute
+  '/home/$userId/matches': typeof HomeUserIdMatchesRoute
+  '/home/$userId/messages': typeof HomeUserIdMessagesRoute
+  '/home/$userId/posts': typeof HomeUserIdPostsRoute
+  '/home/$userId/profile': typeof HomeUserIdProfileRoute
+  '/home/$userId/settings': typeof HomeUserIdSettingsRoute
+  '/home/$userId/subscriptions': typeof HomeUserIdSubscriptionsRoute
+  '/home/$userId': typeof HomeUserIdIndexRoute
 }
 
 export interface FileRoutesById {
@@ -309,9 +496,20 @@ export interface FileRoutesById {
   '/dashboard/posts': typeof DashboardPostsRoute
   '/dashboard/userProfiles': typeof DashboardUserProfilesRoute
   '/dashboard/users': typeof DashboardUsersRoute
-  '/home/$userId': typeof HomeUserIdRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/home/': typeof HomeIndexRoute
+  '/home/$userId/blocked': typeof HomeUserIdBlockedRoute
+  '/home/$userId/comments': typeof HomeUserIdCommentsRoute
+  '/home/$userId/events': typeof HomeUserIdEventsRoute
+  '/home/$userId/likes-received': typeof HomeUserIdLikesReceivedRoute
+  '/home/$userId/likes-sent': typeof HomeUserIdLikesSentRoute
+  '/home/$userId/matches': typeof HomeUserIdMatchesRoute
+  '/home/$userId/messages': typeof HomeUserIdMessagesRoute
+  '/home/$userId/posts': typeof HomeUserIdPostsRoute
+  '/home/$userId/profile': typeof HomeUserIdProfileRoute
+  '/home/$userId/settings': typeof HomeUserIdSettingsRoute
+  '/home/$userId/subscriptions': typeof HomeUserIdSubscriptionsRoute
+  '/home/$userId/': typeof HomeUserIdIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -329,9 +527,20 @@ export interface FileRouteTypes {
     | '/dashboard/posts'
     | '/dashboard/userProfiles'
     | '/dashboard/users'
-    | '/home/$userId'
     | '/dashboard/'
     | '/home/'
+    | '/home/$userId/blocked'
+    | '/home/$userId/comments'
+    | '/home/$userId/events'
+    | '/home/$userId/likes-received'
+    | '/home/$userId/likes-sent'
+    | '/home/$userId/matches'
+    | '/home/$userId/messages'
+    | '/home/$userId/posts'
+    | '/home/$userId/profile'
+    | '/home/$userId/settings'
+    | '/home/$userId/subscriptions'
+    | '/home/$userId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -344,9 +553,20 @@ export interface FileRouteTypes {
     | '/dashboard/posts'
     | '/dashboard/userProfiles'
     | '/dashboard/users'
-    | '/home/$userId'
     | '/dashboard'
     | '/home'
+    | '/home/$userId/blocked'
+    | '/home/$userId/comments'
+    | '/home/$userId/events'
+    | '/home/$userId/likes-received'
+    | '/home/$userId/likes-sent'
+    | '/home/$userId/matches'
+    | '/home/$userId/messages'
+    | '/home/$userId/posts'
+    | '/home/$userId/profile'
+    | '/home/$userId/settings'
+    | '/home/$userId/subscriptions'
+    | '/home/$userId'
   id:
     | '__root__'
     | '/'
@@ -361,9 +581,20 @@ export interface FileRouteTypes {
     | '/dashboard/posts'
     | '/dashboard/userProfiles'
     | '/dashboard/users'
-    | '/home/$userId'
     | '/dashboard/'
     | '/home/'
+    | '/home/$userId/blocked'
+    | '/home/$userId/comments'
+    | '/home/$userId/events'
+    | '/home/$userId/likes-received'
+    | '/home/$userId/likes-sent'
+    | '/home/$userId/matches'
+    | '/home/$userId/messages'
+    | '/home/$userId/posts'
+    | '/home/$userId/profile'
+    | '/home/$userId/settings'
+    | '/home/$userId/subscriptions'
+    | '/home/$userId/'
   fileRoutesById: FileRoutesById
 }
 
@@ -426,8 +657,19 @@ export const routeTree = rootRoute
     "/home": {
       "filePath": "home.lazy.tsx",
       "children": [
-        "/home/$userId",
-        "/home/"
+        "/home/",
+        "/home/$userId/blocked",
+        "/home/$userId/comments",
+        "/home/$userId/events",
+        "/home/$userId/likes-received",
+        "/home/$userId/likes-sent",
+        "/home/$userId/matches",
+        "/home/$userId/messages",
+        "/home/$userId/posts",
+        "/home/$userId/profile",
+        "/home/$userId/settings",
+        "/home/$userId/subscriptions",
+        "/home/$userId/"
       ]
     },
     "/login": {
@@ -460,16 +702,60 @@ export const routeTree = rootRoute
       "filePath": "dashboard/users.tsx",
       "parent": "/dashboard"
     },
-    "/home/$userId": {
-      "filePath": "home/$userId.tsx",
-      "parent": "/home"
-    },
     "/dashboard/": {
       "filePath": "dashboard/index.tsx",
       "parent": "/dashboard"
     },
     "/home/": {
       "filePath": "home/index.tsx",
+      "parent": "/home"
+    },
+    "/home/$userId/blocked": {
+      "filePath": "home/$userId/blocked.tsx",
+      "parent": "/home"
+    },
+    "/home/$userId/comments": {
+      "filePath": "home/$userId/comments.tsx",
+      "parent": "/home"
+    },
+    "/home/$userId/events": {
+      "filePath": "home/$userId/events.tsx",
+      "parent": "/home"
+    },
+    "/home/$userId/likes-received": {
+      "filePath": "home/$userId/likes-received.tsx",
+      "parent": "/home"
+    },
+    "/home/$userId/likes-sent": {
+      "filePath": "home/$userId/likes-sent.tsx",
+      "parent": "/home"
+    },
+    "/home/$userId/matches": {
+      "filePath": "home/$userId/matches.tsx",
+      "parent": "/home"
+    },
+    "/home/$userId/messages": {
+      "filePath": "home/$userId/messages.tsx",
+      "parent": "/home"
+    },
+    "/home/$userId/posts": {
+      "filePath": "home/$userId/posts.tsx",
+      "parent": "/home"
+    },
+    "/home/$userId/profile": {
+      "filePath": "home/$userId/profile.tsx",
+      "parent": "/home"
+    },
+    "/home/$userId/settings": {
+      "filePath": "home/$userId/settings.tsx",
+      "parent": "/home"
+    },
+    "/home/$userId/subscriptions": {
+      "filePath": "home/$userId/subscriptions.tsx",
+      "parent": "/home"
+    },
+    "/home/$userId/": {
+      "filePath": "home/$userId/index.tsx",
       "parent": "/home"
     }
   }

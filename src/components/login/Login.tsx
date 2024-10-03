@@ -55,13 +55,9 @@ export default function Login() {
         // set our cookies, token
         Cookies.set('token', data.token, { expires: 1 }); // expires in 1 day
         const token = Cookies.get('token');
-        console.log(token);
         setError('');
 
         if (token) {
-          console.log('login success: ', token);
-
-          //TODO: if login is succesfful, redirect to home/$userId
           if (Cookies.get('token')) {
             try {
               const userId = await verifyToken(); // Get the user ID from verifyToken
