@@ -12,6 +12,7 @@ import matchesRouter from './routes/matches';
 import registerRouter from './routes/register';
 import loginRouter from './routes/login';
 import tokenRouter from './routes/token';
+import uploadsRouter from './routes/uploads';
 
 const app = express();
 const port = 3001;
@@ -38,6 +39,7 @@ app.use('/api/matches', matchesRouter);
 app.use('/api/register', registerRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/token', tokenRouter);
+app.use('/api/uploads', uploadsRouter);
 
 // Open SQLite database
 // Open SQLite database (create if it doesn't exist)
@@ -64,6 +66,13 @@ export const db = new sqlite3.Database('./users.db', (err) => {
         email TEXT NOT NULL UNIQUE,
         password TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )`,
+      `CREATE TABLE IF NOT EXISTS user_image_uploads (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        image TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
       )`,
       `CREATE TABLE IF NOT EXISTS user_profiles (
         id INTEGER PRIMARY KEY AUTOINCREMENT,

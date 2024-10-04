@@ -1,17 +1,19 @@
 import { useState } from 'react';
 import {
   AppBar,
+  Badge,
   Box,
   Button,
   CircularProgress,
   CssBaseline,
+  IconButton,
   ThemeProvider,
   Toolbar,
+  Tooltip,
 } from '@mui/material';
 import Sidebar, { SidebarLink } from '../../ui/Sidebar';
 import { Outlet } from '@tanstack/react-router';
 import { theme } from '../../theme/Theme';
-import ThemeToggle from '../../theme/ThemeToggle';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
@@ -26,19 +28,22 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ChatIcon from '@mui/icons-material/Chat';
 import PreviewIcon from '@mui/icons-material/Preview';
-
-
+import LogoutIcon from '@mui/icons-material/Logout';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import {
+  useLogout,
   useUser,
   useUserVerification,
 } from '../../../utils/functions';
+import ThemeToggleSmall from '../../theme/ThemeToggleSmall';
 
 export default function HomeLayout() {
   // fetch the user id from cookie
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
 
-  const { userId, loading } = useUser();
+  const { userId, loading, userName } = useUser();
   useUserVerification(Number(userId));
+  const logout = useLogout();
 
   if (loading) {
     return (
@@ -141,8 +146,47 @@ export default function HomeLayout() {
               open={sidebarOpen}
               onClose={() => setSidebarOpen(false)}
               links={links}
+              name={userName}
             />
-            <ThemeToggle />
+            <Box
+              sx={{ display: 'flex', alignItems: 'center', gap: 3 }}
+            >
+              {/* TODO: Add checks to see if a user has new notifications or anything unread */}
+              {/* message notifications */}
+              <Tooltip
+                title="Unread Messages"
+                arrow
+                placement="bottom"
+              >
+                <IconButton aria-label="unread messages">
+                  <Badge badgeContent="" color="error" variant="dot">
+                    <ChatIcon color="action" fontSize="small" />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+
+              {/* notifications */}
+              <Tooltip title="Notifications" arrow placement="bottom">
+                <IconButton aria-label="notifications">
+                  <Badge badgeContent="" color="error" variant="dot">
+                    <NotificationsIcon
+                      color="action"
+                      fontSize="small"
+                    />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
+
+              {/* toggle theme */}
+              <ThemeToggleSmall />
+
+              {/* logout button */}
+              <Tooltip title="Logout" arrow placement="bottom">
+                <IconButton aria-label="logout" onClick={logout}>
+                  <LogoutIcon color="action" fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            </Box>
           </Toolbar>
         </AppBar>
         <Box

@@ -17,6 +17,7 @@ import { Route as HomeIndexImport } from './routes/home/index'
 import { Route as DashboardIndexImport } from './routes/dashboard/index'
 import { Route as DashboardUsersImport } from './routes/dashboard/users'
 import { Route as DashboardUserProfilesImport } from './routes/dashboard/userProfiles'
+import { Route as DashboardUserImagesImport } from './routes/dashboard/userImages'
 import { Route as DashboardPostsImport } from './routes/dashboard/posts'
 import { Route as DashboardMatchesImport } from './routes/dashboard/matches'
 import { Route as DashboardFollowsImport } from './routes/dashboard/follows'
@@ -92,6 +93,11 @@ const DashboardUsersRoute = DashboardUsersImport.update({
 
 const DashboardUserProfilesRoute = DashboardUserProfilesImport.update({
   path: '/userProfiles',
+  getParentRoute: () => DashboardLazyRoute,
+} as any)
+
+const DashboardUserImagesRoute = DashboardUserImagesImport.update({
+  path: '/userImages',
   getParentRoute: () => DashboardLazyRoute,
 } as any)
 
@@ -249,6 +255,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardPostsImport
       parentRoute: typeof DashboardLazyImport
     }
+    '/dashboard/userImages': {
+      id: '/dashboard/userImages'
+      path: '/userImages'
+      fullPath: '/dashboard/userImages'
+      preLoaderRoute: typeof DashboardUserImagesImport
+      parentRoute: typeof DashboardLazyImport
+    }
     '/dashboard/userProfiles': {
       id: '/dashboard/userProfiles'
       path: '/userProfiles'
@@ -371,6 +384,7 @@ interface DashboardLazyRouteChildren {
   DashboardFollowsRoute: typeof DashboardFollowsRoute
   DashboardMatchesRoute: typeof DashboardMatchesRoute
   DashboardPostsRoute: typeof DashboardPostsRoute
+  DashboardUserImagesRoute: typeof DashboardUserImagesRoute
   DashboardUserProfilesRoute: typeof DashboardUserProfilesRoute
   DashboardUsersRoute: typeof DashboardUsersRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
@@ -381,6 +395,7 @@ const DashboardLazyRouteChildren: DashboardLazyRouteChildren = {
   DashboardFollowsRoute: DashboardFollowsRoute,
   DashboardMatchesRoute: DashboardMatchesRoute,
   DashboardPostsRoute: DashboardPostsRoute,
+  DashboardUserImagesRoute: DashboardUserImagesRoute,
   DashboardUserProfilesRoute: DashboardUserProfilesRoute,
   DashboardUsersRoute: DashboardUsersRoute,
   DashboardIndexRoute: DashboardIndexRoute,
@@ -437,6 +452,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/follows': typeof DashboardFollowsRoute
   '/dashboard/matches': typeof DashboardMatchesRoute
   '/dashboard/posts': typeof DashboardPostsRoute
+  '/dashboard/userImages': typeof DashboardUserImagesRoute
   '/dashboard/userProfiles': typeof DashboardUserProfilesRoute
   '/dashboard/users': typeof DashboardUsersRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -464,6 +480,7 @@ export interface FileRoutesByTo {
   '/dashboard/follows': typeof DashboardFollowsRoute
   '/dashboard/matches': typeof DashboardMatchesRoute
   '/dashboard/posts': typeof DashboardPostsRoute
+  '/dashboard/userImages': typeof DashboardUserImagesRoute
   '/dashboard/userProfiles': typeof DashboardUserProfilesRoute
   '/dashboard/users': typeof DashboardUsersRoute
   '/dashboard': typeof DashboardIndexRoute
@@ -494,6 +511,7 @@ export interface FileRoutesById {
   '/dashboard/follows': typeof DashboardFollowsRoute
   '/dashboard/matches': typeof DashboardMatchesRoute
   '/dashboard/posts': typeof DashboardPostsRoute
+  '/dashboard/userImages': typeof DashboardUserImagesRoute
   '/dashboard/userProfiles': typeof DashboardUserProfilesRoute
   '/dashboard/users': typeof DashboardUsersRoute
   '/dashboard/': typeof DashboardIndexRoute
@@ -525,6 +543,7 @@ export interface FileRouteTypes {
     | '/dashboard/follows'
     | '/dashboard/matches'
     | '/dashboard/posts'
+    | '/dashboard/userImages'
     | '/dashboard/userProfiles'
     | '/dashboard/users'
     | '/dashboard/'
@@ -551,6 +570,7 @@ export interface FileRouteTypes {
     | '/dashboard/follows'
     | '/dashboard/matches'
     | '/dashboard/posts'
+    | '/dashboard/userImages'
     | '/dashboard/userProfiles'
     | '/dashboard/users'
     | '/dashboard'
@@ -579,6 +599,7 @@ export interface FileRouteTypes {
     | '/dashboard/follows'
     | '/dashboard/matches'
     | '/dashboard/posts'
+    | '/dashboard/userImages'
     | '/dashboard/userProfiles'
     | '/dashboard/users'
     | '/dashboard/'
@@ -649,6 +670,7 @@ export const routeTree = rootRoute
         "/dashboard/follows",
         "/dashboard/matches",
         "/dashboard/posts",
+        "/dashboard/userImages",
         "/dashboard/userProfiles",
         "/dashboard/users",
         "/dashboard/"
@@ -692,6 +714,10 @@ export const routeTree = rootRoute
     },
     "/dashboard/posts": {
       "filePath": "dashboard/posts.tsx",
+      "parent": "/dashboard"
+    },
+    "/dashboard/userImages": {
+      "filePath": "dashboard/userImages.tsx",
       "parent": "/dashboard"
     },
     "/dashboard/userProfiles": {

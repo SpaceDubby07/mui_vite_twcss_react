@@ -23,6 +23,7 @@ export interface SidebarProps {
   open: boolean;
   onClose: () => void;
   links: SidebarLink[];
+  name?: string;
 }
 
 const drawerWidth = 250; // Define your drawer width
@@ -31,6 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   open,
   onClose,
   links,
+  name = 'User',
 }) => {
   return (
     <Drawer
@@ -65,7 +67,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             p: 2,
           }}
         >
-          <Typography variant="h6">User</Typography>
+          <Typography variant="h6">{name}</Typography>
           <Button onClick={onClose}>Close</Button>
         </Box>
         <Stack sx={{ flexGrow: 1, p: 1 }}>

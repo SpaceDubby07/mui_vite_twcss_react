@@ -30,6 +30,38 @@ router.get('/', (req: Request, res: Response) => {
   });
 });
 
+router.get('/authorDetails', (req, res) => {
+  const query = `
+    SELECT posts.id, posts.user_id, posts.title, posts.content, posts.created_at,
+           users.name as authorName, user_profiles.image as authorImage
+    FROM posts
+    JOIN users ON posts.user_id = users.id
+    LEFT JOIN user_profiles ON users.id = user_profiles.user_id
+    ORDER BY posts.created_at DESC
+  `;
+
+  db.all(query, (err, rows) => {
+    if (err) {
+      console.error(
+        'Error fetching posts with author details:',
+        err.message
+      );
+      res
+        .status(500)
+        .json({ error: 'Failed to fetch posts with author details' });
+      return;
+    }
+
+    if (!rows.length) {
+      console.log('No posts found with author details');
+      res.status(404).json({ message: 'No posts found' });
+      return;
+    }
+
+    res.json(rows);
+  });
+});
+
 // get a specific post by id
 router.get('/:id', (req: Request, res: Response) => {
   const { id } = req.params;

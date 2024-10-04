@@ -56,6 +56,7 @@ interface Post {
   user_id: number;
   title: string;
   content: string;
+  created_at: Date;
 }
 
 interface UserPostTableProps {
@@ -80,6 +81,7 @@ interface Comments {
   user_id: number;
   post_id: number;
   content: string;
+  created_at: Date;
 }
 
 interface UserCommentsTableProps {
@@ -136,6 +138,24 @@ interface AddFollowsProps {
   >; // Function to set the selected follow
 }
 
+// user images
+interface UserImage {
+  id: number;
+  user_id: number;
+  image: string;
+}
+
+interface UserImageTableProps {
+  users: User[];
+  userImages: UserImage[];
+  deleteUserImage: (id: number) => void;
+}
+
+interface AddUserImageProps {
+  users: User[];
+  setImages: React.Dispatch<React.SetStateAction<UserImage[]>>;
+}
+
 // export all types on this file
 export type {
   User,
@@ -154,4 +174,7 @@ export type {
   Follow,
   FollowsTableProps,
   AddFollowsProps,
+  UserImage,
+  UserImageTableProps,
+  AddUserImageProps,
 };

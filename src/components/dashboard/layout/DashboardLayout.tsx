@@ -18,6 +18,7 @@ import PostAddIcon from '@mui/icons-material/PostAdd';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import ThumbsUpDownIcon from '@mui/icons-material/ThumbsUpDown';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
 import { theme } from '../../theme/Theme';
 import ThemeToggle from '../../theme/ThemeToggle';
 
@@ -35,6 +36,11 @@ export default function DashboardLayout() {
       text: 'User Profiles',
       icon: <ManageAccountsIcon />,
       path: '/dashboard/userProfiles',
+    },
+    {
+      text: 'User Images',
+      icon: <PhotoLibraryIcon />,
+      path: '/dashboard/userImages',
     },
     {
       text: 'Posts',
@@ -70,7 +76,6 @@ export default function DashboardLayout() {
         <CssBaseline />
         <AppBar
           position="fixed"
-          color="transparent"
           sx={{
             zIndex: (theme) => theme.zIndex.drawer + 1,
           }}
