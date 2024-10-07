@@ -35,6 +35,8 @@ export const UserProfileTable: React.FC<UserProfileTableProps> = ({
               <TableCell>Avatar</TableCell>
               <TableCell>Bio</TableCell>
               <TableCell>Date of Birth</TableCell>
+              <TableCell>Gender</TableCell>
+              <TableCell>Pronouns</TableCell>
               <TableCell>Location</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
@@ -60,6 +62,8 @@ export const UserProfileTable: React.FC<UserProfileTableProps> = ({
                   </TableCell>
                   <TableCell>{profile.bio}</TableCell>
                   <TableCell>{profile.date_of_birth}</TableCell>
+                  <TableCell>{profile.gender}</TableCell>
+                  <TableCell>{profile.pronouns}</TableCell>
                   <TableCell>{profile.location}</TableCell>
                   <TableCell>
                     <Button

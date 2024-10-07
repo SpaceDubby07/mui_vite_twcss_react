@@ -1,5 +1,5 @@
 import express from 'express';
-import sqlite3 from 'sqlite3';
+import sqlite3, { Database } from 'sqlite3';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -13,6 +13,7 @@ import registerRouter from './routes/register';
 import loginRouter from './routes/login';
 import tokenRouter from './routes/token';
 import uploadsRouter from './routes/uploads';
+import interestsRouter from './routes/interests';
 
 const app = express();
 const port = 3001;
@@ -40,6 +41,7 @@ app.use('/api/register', registerRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/token', tokenRouter);
 app.use('/api/uploads', uploadsRouter);
+app.use('/api/interests', interestsRouter);
 
 // Open SQLite database
 // Open SQLite database (create if it doesn't exist)
@@ -79,8 +81,11 @@ export const db = new sqlite3.Database('./users.db', (err) => {
         user_id INTEGER UNIQUE,
         bio TEXT,
         date_of_birth DATE,
+        gender TEXT,
+        pronouns TEXT,
         location TEXT,
         image TEXT,
+        relationship_type TEXT,
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
       )`,
       `CREATE TABLE IF NOT EXISTS posts (
@@ -96,22 +101,6 @@ export const db = new sqlite3.Database('./users.db', (err) => {
         user_id INTEGER,
         post_id INTEGER,
         content TEXT NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-        FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
-      )`,
-      `CREATE TABLE IF NOT EXISTS comments_likes (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER,
-        comment_id INTEGER,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-        FOREIGN KEY (comment_id) REFERENCES comments(id) ON DELETE CASCADE
-      )`,
-      `CREATE TABLE IF NOT EXISTS posts_likes (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER,
-        post_id INTEGER,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
         FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE
@@ -146,10 +135,54 @@ export const db = new sqlite3.Database('./users.db', (err) => {
         expires_at DATETIME NOT NULL,
         FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
       );`,
+      `CREATE TABLE IF NOT EXISTS interests (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        category TEXT,
+        label TEXT,
+        value TEXT
+      );`,
+      `CREATE TABLE IF NOT EXISTS user_interests (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        interest_id INTEGER NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+        FOREIGN KEY (interest_id) REFERENCES interests(id) ON DELETE CASCADE
+      );`,
+
+      // `DROP TABLE IF EXISTS relationship_type;`,
+      // `ALTER TABLE user_profiles ADD COLUMN relationship_type TEXT;`,
     ];
 
+    // async function populateInterests(db: Database) {
+    //   try {
+    //     for (const [category, items] of Object.entries(INTERESTS)) {
+    //       for (const interest of items) {
+    //         await new Promise<void>((resolve, reject) => {
+    //           db.run(
+    //             'INSERT INTO interests (category, label, value) VALUES (?, ?, ?)',
+    //             [category, interest.label, interest.value],
+    //             (err) => {
+    //               if (err) {
+    //                 reject(err);
+    //               } else {
+    //                 resolve();
+    //               }
+    //             }
+    //           );
+    //         });
+    //       }
+    //     }
+    //     console.log('Interests successfully populated.');
+    //   } catch (error) {
+    //     console.error('Error populating interests:', error);
+    //   }
+    // }
+
     // Execute each CREATE TABLE statement
+
     db.serialize(() => {
+      // populateInterests(db); // to add any new values to any table i need
+
       createTables.forEach((tableQuery, index) => {
         db.run(tableQuery, (err) => {
           if (err) {
@@ -159,7 +192,8 @@ export const db = new sqlite3.Database('./users.db', (err) => {
             );
           } else {
             console.log(
-              `Table ${index + 1} exists or has been created.`
+              // `Table ${index + 1} exists or has been created.`
+              `Success`
             );
           }
         });

@@ -26,8 +26,11 @@ interface UserProfile {
   user_id: number;
   image: string;
   bio: string;
+  gender: string;
+  pronouns: string;
   date_of_birth: string;
   location: string;
+  relationship_type: string;
 }
 
 interface UserProfileTableProps {
@@ -156,6 +159,19 @@ interface AddUserImageProps {
   setImages: React.Dispatch<React.SetStateAction<UserImage[]>>;
 }
 
+interface Interests {
+  id: number;
+  category: string;
+  label: string;
+  value: string;
+}
+
+interface User_interests {
+  id?: number; // we use a ? because we are unsure what the id is at this point
+  user_id: number;
+  interest_id: number;
+}
+
 // export all types on this file
 export type {
   User,
@@ -177,4 +193,6 @@ export type {
   UserImage,
   UserImageTableProps,
   AddUserImageProps,
+  Interests,
+  User_interests,
 };

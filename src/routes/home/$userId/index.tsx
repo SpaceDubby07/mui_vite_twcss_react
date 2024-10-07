@@ -19,7 +19,6 @@ function Comp() {
   const [posts, setPosts] = useState<PostWithAuthor[]>([]);
   const [comments, setComments] = useState<CommentWithAuthor[]>([]);
 
-  console.log(posts, comments);
   // Call the user verification hook
   useUserVerification(Number(userId));
 

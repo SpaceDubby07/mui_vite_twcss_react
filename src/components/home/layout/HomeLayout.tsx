@@ -119,16 +119,12 @@ export default function HomeLayout() {
   return (
     <ThemeProvider theme={theme}>
       <Box
-        sx={{
-          display: 'flex',
-          height: '100vh',
-          overflow: 'hidden',
-        }}
+        sx={{ display: 'flex', overflow: 'hidden', height: '100vh' }}
       >
         <CssBaseline />
         <AppBar
           position="fixed"
-          color="transparent"
+          color="default"
           sx={{
             zIndex: (theme) => theme.zIndex.drawer + 1,
           }}
@@ -191,7 +187,11 @@ export default function HomeLayout() {
         </AppBar>
         <Box
           component="main"
-          sx={{ flexGrow: 1, p: 3, overflow: 'auto' }}
+          sx={{
+            flexGrow: 1,
+            p: 3,
+            overflow: 'auto',
+          }}
         >
           <Toolbar />
           {/* This pushes the main content below the AppBar */}

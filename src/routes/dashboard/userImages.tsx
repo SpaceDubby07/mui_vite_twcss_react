@@ -10,8 +10,6 @@ export const Route = createFileRoute('/dashboard/userImages')({
     const [userImages, setUserImages] = useState<UserImage[]>([]);
     const [users, setUsers] = useState<User[]>([]);
 
-    console.log(userImages, users);
-
     // Fetch the user profiles on mount
     useEffect(() => {
       const getUsers = async () => {

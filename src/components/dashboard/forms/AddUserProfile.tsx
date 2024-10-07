@@ -11,6 +11,7 @@ import {
 import { useEffect, useState, FormEvent } from 'react';
 import { AddUserProfileProps } from '../../../../types';
 import { responsiveDesign } from '../../theme/Theme';
+import { GENDER, LOCATION, PRONOUNS } from '../../../../constants';
 
 export const AddUserProfile: React.FC<AddUserProfileProps> = ({
   users,
@@ -23,6 +24,8 @@ export const AddUserProfile: React.FC<AddUserProfileProps> = ({
   const [userId, setUserId] = useState<number | null>(null);
   const [image, setImage] = useState<string>('');
   const [bio, setBio] = useState<string>('');
+  const [gender, setGender] = useState<string>('');
+  const [pronouns, setPronouns] = useState<string>('');
   const [dateOfBirth, setDateOfBirth] = useState<string>('');
   const [location, setLocation] = useState<string>('');
 
@@ -31,12 +34,16 @@ export const AddUserProfile: React.FC<AddUserProfileProps> = ({
       setUserId(selectedProfile.user_id);
       setImage(selectedProfile.image);
       setBio(selectedProfile.bio);
+      setGender(selectedProfile.gender);
+      setPronouns(selectedProfile.pronouns);
       setDateOfBirth(selectedProfile.date_of_birth);
       setLocation(selectedProfile.location);
     } else {
       setUserId(null);
       setImage('');
       setBio('');
+      setGender('');
+      setPronouns('');
       setDateOfBirth('');
       setLocation('');
     }
@@ -54,6 +61,8 @@ export const AddUserProfile: React.FC<AddUserProfileProps> = ({
       user_id: userId,
       image,
       bio,
+      gender,
+      pronouns,
       date_of_birth: dateOfBirth,
       location,
     };
@@ -106,6 +115,8 @@ export const AddUserProfile: React.FC<AddUserProfileProps> = ({
         setImage('');
         setBio('');
         setDateOfBirth('');
+        setGender('');
+        setPronouns('');
         setLocation('');
         setIsEditing(false);
         setSelectedProfile(null);
@@ -185,14 +196,67 @@ export const AddUserProfile: React.FC<AddUserProfileProps> = ({
           },
         }}
       />
+      <FormControl sx={{ m: 1, width: '300px' }}>
+        <InputLabel id="gender-select-label">
+          Select Gender
+        </InputLabel>
+        <Select
+          labelId="gender-select-label"
+          value={gender ?? ''}
+          onChange={(e) => setGender(e.target.value)}
+          label="Select gender"
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          {GENDER.map((gender) => (
+            <MenuItem key={gender.value} value={gender.value}>
+              {gender.label}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <FormControl sx={{ m: 1, width: '300px' }}>
+        <InputLabel id="pronouns-select-label">
+          Select Pronouns
+        </InputLabel>
+        <Select
+          labelId="pronouns-select-label"
+          value={pronouns ?? ''}
+          onChange={(e) => setPronouns(e.target.value)}
+          label="Select pronouns"
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          {PRONOUNS.map((p) => (
+            <MenuItem key={p.value} value={p.value}>
+              {p.label}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
 
-      <TextField
-        label="Location"
-        value={location}
-        onChange={(e) => setLocation(e.target.value)}
-        required
-        sx={{ m: 1, width: '300px' }}
-      />
+      <FormControl sx={{ m: 1, width: '300px' }}>
+        <InputLabel id="location-select-label">
+          Select Location
+        </InputLabel>
+        <Select
+          labelId="location-select-label"
+          value={location ?? ''}
+          onChange={(e) => setLocation(e.target.value)}
+          label="Select location"
+        >
+          <MenuItem value="">
+            <em>None</em>
+          </MenuItem>
+          {LOCATION.map((location) => (
+            <MenuItem key={location.value} value={location.value}>
+              {location.label}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
 
       <Button
         variant="contained"

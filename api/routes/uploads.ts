@@ -24,6 +24,46 @@ router.get('/', (req: Request, res: Response) => {
   });
 });
 
+router.get('/:id', (req: Request, res: Response) => {
+  const { id } = req.params;
+  db.get(
+    'SELECT * FROM user_image_uploads WHERE id = ?',
+    [id],
+    (err, row) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+        return;
+      }
+      if (!row) {
+        res.status(404).json({ error: 'Image not found' });
+        return;
+      }
+      res.json(row);
+    }
+  );
+});
+
+router.get('/user/:user_id', (req: Request, res: Response) => {
+  const { user_id } = req.params;
+  db.all(
+    'SELECT * FROM user_image_uploads WHERE user_id = ?',
+    [user_id],
+    (err, rows) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+        return;
+      }
+      if (!rows || rows.length === 0) {
+        res
+          .status(404)
+          .json({ error: 'No images found for this user' });
+        return;
+      }
+      res.json({ images: rows }); // Return all rows (images)
+    }
+  );
+});
+
 // Upload an image
 router.post(
   '/',
@@ -106,10 +146,8 @@ function extractPublicIdsFromUrls(imageUrls: string | string[]) {
 router.delete('/:id', async (req: Request, res: Response) => {
   const { id } = req.params;
   const { image, user_id } = req.body;
-  console.log('Request Body:', req.body);
 
   const publicIds = extractPublicIdsFromUrls(image);
-  console.log(publicIds);
 
   try {
     // Step 2: Delete images from Cloudinary

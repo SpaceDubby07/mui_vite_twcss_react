@@ -8,13 +8,25 @@ router.post('/', (req: Request, res: Response) => {
   const {
     user_id,
     bio,
+    gender,
+    pronouns,
     date_of_birth,
     location,
     image,
+    relationship_type,
   }: UserProfile = req.body;
   db.run(
-    'INSERT INTO user_profiles (user_id, bio, date_of_birth, location, image) VALUES (?, ?, ?, ?, ?)',
-    [user_id, bio, date_of_birth, location, image],
+    'INSERT INTO user_profiles (user_id, bio, date_of_birth, gender, pronouns, location, image, relationship_type) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+    [
+      user_id,
+      bio,
+      date_of_birth,
+      gender,
+      pronouns,
+      location,
+      image,
+      relationship_type,
+    ],
     function (err) {
       if (err) {
         res.status(400).json({ error: err.message });
@@ -71,10 +83,27 @@ router.get('/user/:user_id', (req: Request, res: Response) => {
 // update a user profile
 router.put('/:id', (req: Request, res: Response) => {
   const { id } = req.params;
-  const { bio, date_of_birth, location, image } = req.body;
+  const {
+    bio,
+    date_of_birth,
+    gender,
+    pronouns,
+    location,
+    image,
+    relationship_type,
+  } = req.body;
   db.run(
-    'UPDATE user_profiles SET bio = ?, date_of_birth = ?, location = ?, image = ? WHERE id = ?',
-    [bio, date_of_birth, location, image, id],
+    'UPDATE user_profiles SET bio = ?, date_of_birth = ?, gender = ?, pronouns = ?, location = ?, image = ?, relationship_type = ? WHERE id = ?',
+    [
+      bio,
+      date_of_birth,
+      gender,
+      pronouns,
+      location,
+      image,
+      relationship_type,
+      id,
+    ],
     (err) => {
       if (err) {
         res.status(500).json({ error: err.message });
@@ -87,16 +116,43 @@ router.put('/:id', (req: Request, res: Response) => {
 
 router.patch('/:id', (req: Request, res: Response) => {
   const { id } = req.params;
-  const { bio, date_of_birth, location, image } = req.body;
+  const {
+    bio,
+    date_of_birth,
+    gender,
+    pronouns,
+    location,
+    image,
+    relationship_type,
+  } = req.body;
   db.run(
-    'UPDATE user_profiles SET bio = ?, date_of_birth = ?, location = ?, image = ? WHERE id = ?',
-    [bio, date_of_birth, location, image, id],
+    'UPDATE user_profiles SET bio = ?, date_of_birth = ?, gender = ?, pronouns = ?, location = ?, image = ?, relationship_type = ? WHERE id = ?',
+    [
+      bio,
+      date_of_birth,
+      gender,
+      pronouns,
+      location,
+      image,
+      relationship_type,
+      id,
+    ],
     (err) => {
       if (err) {
         res.status(500).json({ error: err.message });
         return;
       }
-      res.json({ message: 'User profile updated successfully' });
+      db.get(
+        'SELECT * FROM user_profiles WHERE id = ?',
+        [id],
+        (err, row) => {
+          if (err) {
+            res.status(500).json({ error: err.message });
+            return;
+          }
+          res.json(row);
+        }
+      );
     }
   );
 });
