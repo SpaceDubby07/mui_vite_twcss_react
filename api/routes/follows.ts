@@ -29,6 +29,27 @@ router.get('/', (req: Request, res: Response) => {
   });
 });
 
+// get all follows sent for a specific user and join the users table - name, and user_profiles table - image on each user with a like
+router.get('/sent', (req: Request, res: Response) => {
+  const { follower_id } = req.query;
+  if (!follower_id) {
+    res.status(400).json({ error: 'Missing follower_id parameter' });
+    return;
+  }
+
+  db.all(
+    'SELECT u.name, u.id, up.image FROM users u INNER JOIN follows f ON u.id = f.followed_id INNER JOIN user_profiles up ON u.id = up.user_id WHERE f.follower_id = ?',
+    [follower_id],
+    (err, rows) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+        return;
+      }
+      res.json(rows);
+    }
+  );
+});
+
 // create a follow
 router.post('/', (req: Request, res: Response) => {
   const { follower_id, followed_id }: Follow = req.body;

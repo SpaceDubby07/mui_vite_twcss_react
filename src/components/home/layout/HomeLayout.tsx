@@ -30,6 +30,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import PreviewIcon from '@mui/icons-material/Preview';
 import LogoutIcon from '@mui/icons-material/Logout';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import HelpIcon from '@mui/icons-material/Help';
 import {
   useLogout,
   useUser,
@@ -113,6 +114,11 @@ export default function HomeLayout() {
       text: 'Manage Blocked Users',
       icon: <BlockIcon />,
       path: `/home/${userId}/blocked`,
+    },
+    {
+      text: 'Contact Support',
+      icon: <HelpIcon />,
+      path: `/home/${userId}/contactUs`,
     },
   ];
 

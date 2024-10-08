@@ -32,6 +32,7 @@ import { Route as HomeUserIdMatchesImport } from './routes/home/$userId/matches'
 import { Route as HomeUserIdLikesSentImport } from './routes/home/$userId/likes-sent'
 import { Route as HomeUserIdLikesReceivedImport } from './routes/home/$userId/likes-received'
 import { Route as HomeUserIdEventsImport } from './routes/home/$userId/events'
+import { Route as HomeUserIdContactUsImport } from './routes/home/$userId/contactUs'
 import { Route as HomeUserIdCommentsImport } from './routes/home/$userId/comments'
 import { Route as HomeUserIdBlockedImport } from './routes/home/$userId/blocked'
 
@@ -171,6 +172,11 @@ const HomeUserIdEventsRoute = HomeUserIdEventsImport.update({
   getParentRoute: () => HomeLazyRoute,
 } as any)
 
+const HomeUserIdContactUsRoute = HomeUserIdContactUsImport.update({
+  path: '/$userId/contactUs',
+  getParentRoute: () => HomeLazyRoute,
+} as any)
+
 const HomeUserIdCommentsRoute = HomeUserIdCommentsImport.update({
   path: '/$userId/comments',
   getParentRoute: () => HomeLazyRoute,
@@ -304,6 +310,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomeUserIdCommentsImport
       parentRoute: typeof HomeLazyImport
     }
+    '/home/$userId/contactUs': {
+      id: '/home/$userId/contactUs'
+      path: '/$userId/contactUs'
+      fullPath: '/home/$userId/contactUs'
+      preLoaderRoute: typeof HomeUserIdContactUsImport
+      parentRoute: typeof HomeLazyImport
+    }
     '/home/$userId/events': {
       id: '/home/$userId/events'
       path: '/$userId/events'
@@ -409,6 +422,7 @@ interface HomeLazyRouteChildren {
   HomeIndexRoute: typeof HomeIndexRoute
   HomeUserIdBlockedRoute: typeof HomeUserIdBlockedRoute
   HomeUserIdCommentsRoute: typeof HomeUserIdCommentsRoute
+  HomeUserIdContactUsRoute: typeof HomeUserIdContactUsRoute
   HomeUserIdEventsRoute: typeof HomeUserIdEventsRoute
   HomeUserIdLikesReceivedRoute: typeof HomeUserIdLikesReceivedRoute
   HomeUserIdLikesSentRoute: typeof HomeUserIdLikesSentRoute
@@ -425,6 +439,7 @@ const HomeLazyRouteChildren: HomeLazyRouteChildren = {
   HomeIndexRoute: HomeIndexRoute,
   HomeUserIdBlockedRoute: HomeUserIdBlockedRoute,
   HomeUserIdCommentsRoute: HomeUserIdCommentsRoute,
+  HomeUserIdContactUsRoute: HomeUserIdContactUsRoute,
   HomeUserIdEventsRoute: HomeUserIdEventsRoute,
   HomeUserIdLikesReceivedRoute: HomeUserIdLikesReceivedRoute,
   HomeUserIdLikesSentRoute: HomeUserIdLikesSentRoute,
@@ -459,6 +474,7 @@ export interface FileRoutesByFullPath {
   '/home/': typeof HomeIndexRoute
   '/home/$userId/blocked': typeof HomeUserIdBlockedRoute
   '/home/$userId/comments': typeof HomeUserIdCommentsRoute
+  '/home/$userId/contactUs': typeof HomeUserIdContactUsRoute
   '/home/$userId/events': typeof HomeUserIdEventsRoute
   '/home/$userId/likes-received': typeof HomeUserIdLikesReceivedRoute
   '/home/$userId/likes-sent': typeof HomeUserIdLikesSentRoute
@@ -487,6 +503,7 @@ export interface FileRoutesByTo {
   '/home': typeof HomeIndexRoute
   '/home/$userId/blocked': typeof HomeUserIdBlockedRoute
   '/home/$userId/comments': typeof HomeUserIdCommentsRoute
+  '/home/$userId/contactUs': typeof HomeUserIdContactUsRoute
   '/home/$userId/events': typeof HomeUserIdEventsRoute
   '/home/$userId/likes-received': typeof HomeUserIdLikesReceivedRoute
   '/home/$userId/likes-sent': typeof HomeUserIdLikesSentRoute
@@ -518,6 +535,7 @@ export interface FileRoutesById {
   '/home/': typeof HomeIndexRoute
   '/home/$userId/blocked': typeof HomeUserIdBlockedRoute
   '/home/$userId/comments': typeof HomeUserIdCommentsRoute
+  '/home/$userId/contactUs': typeof HomeUserIdContactUsRoute
   '/home/$userId/events': typeof HomeUserIdEventsRoute
   '/home/$userId/likes-received': typeof HomeUserIdLikesReceivedRoute
   '/home/$userId/likes-sent': typeof HomeUserIdLikesSentRoute
@@ -550,6 +568,7 @@ export interface FileRouteTypes {
     | '/home/'
     | '/home/$userId/blocked'
     | '/home/$userId/comments'
+    | '/home/$userId/contactUs'
     | '/home/$userId/events'
     | '/home/$userId/likes-received'
     | '/home/$userId/likes-sent'
@@ -577,6 +596,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/home/$userId/blocked'
     | '/home/$userId/comments'
+    | '/home/$userId/contactUs'
     | '/home/$userId/events'
     | '/home/$userId/likes-received'
     | '/home/$userId/likes-sent'
@@ -606,6 +626,7 @@ export interface FileRouteTypes {
     | '/home/'
     | '/home/$userId/blocked'
     | '/home/$userId/comments'
+    | '/home/$userId/contactUs'
     | '/home/$userId/events'
     | '/home/$userId/likes-received'
     | '/home/$userId/likes-sent'
@@ -682,6 +703,7 @@ export const routeTree = rootRoute
         "/home/",
         "/home/$userId/blocked",
         "/home/$userId/comments",
+        "/home/$userId/contactUs",
         "/home/$userId/events",
         "/home/$userId/likes-received",
         "/home/$userId/likes-sent",
@@ -742,6 +764,10 @@ export const routeTree = rootRoute
     },
     "/home/$userId/comments": {
       "filePath": "home/$userId/comments.tsx",
+      "parent": "/home"
+    },
+    "/home/$userId/contactUs": {
+      "filePath": "home/$userId/contactUs.tsx",
       "parent": "/home"
     },
     "/home/$userId/events": {

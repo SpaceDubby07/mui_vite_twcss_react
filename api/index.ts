@@ -1,5 +1,5 @@
 import express from 'express';
-import sqlite3, { Database } from 'sqlite3';
+import sqlite3 from 'sqlite3';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';

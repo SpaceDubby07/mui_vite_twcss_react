@@ -14,6 +14,16 @@ router.get('/', (req: Request, res: Response) => {
   });
 });
 
+router.get('/dummy', (req: Request, res: Response) => {
+  // just log some fake data to test that the route works
+  const data = {
+    id: 1,
+    name: 'John Doe',
+    email: 'Ujx2c@example.com',
+  };
+  res.json(data);
+});
+
 router.get('/:id', (req: Request, res: Response) => {
   const { id } = req.params;
   db.get('SELECT * FROM users WHERE id = ?', [id], (err, row) => {

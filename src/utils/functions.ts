@@ -1,6 +1,6 @@
 import { useNavigate } from '@tanstack/react-router';
 import Cookies from 'js-cookie';
-import { useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { UserContext } from '../providers/UserContext';
 
 // verify a users token, if it exists, add return their user id
@@ -28,33 +28,33 @@ export const verifyToken = async () => {
 // check if the user is the current logged in user
 export const useUserVerification = (userId: number) => {
   const navigate = useNavigate();
+  // Memoize token verification to avoid re-creating the function on every render
+  const verifyUser = useCallback(async () => {
+    const token = Cookies.get('token');
+
+    if (!token) {
+      // No token found, redirect to login
+      navigate({ to: '/login' });
+      return;
+    }
+
+    try {
+      const tokenUserId = await verifyToken();
+
+      if (tokenUserId !== userId) {
+        // If user IDs don't match, redirect to the correct user's home
+        navigate({ to: `/home/${tokenUserId}` });
+      }
+    } catch (error) {
+      console.error('Failed to verify token', error);
+      // In case of any error, redirect to login
+      navigate({ to: '/login' });
+    }
+  }, [userId, navigate]);
 
   useEffect(() => {
-    const checkUserRoute = async () => {
-      const token = Cookies.get('token');
-      if (token) {
-        try {
-          const tokenUserId = await verifyToken();
-
-          // Check if the token user ID matches the route user ID
-          if (tokenUserId !== Number(userId)) {
-            navigate({ to: `/home/${tokenUserId}` });
-            return; // Stop further execution if redirecting
-          }
-        } catch (error) {
-          console.error('Failed to verify token', error);
-          navigate({ to: '/login' });
-          return; // Stop further execution if redirecting
-        }
-      } else {
-        // Redirect to login if no token is found
-        navigate({ to: '/login' });
-        return; // Stop further execution if redirecting
-      }
-    };
-
-    checkUserRoute(); // Call the function to perform checks
-  }, [userId, navigate]);
+    verifyUser();
+  }, [verifyUser]); // Add verifyUser to the dependency array
 };
 
 // logout the user
